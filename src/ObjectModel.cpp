@@ -49,6 +49,13 @@ void ObjectModel::OpenObject(std::string line) {
                     std::size_t index_stoi{};
                     face.push_back(std::abs(std::stoi(line.c_str() + i, &index_stoi)));
                     i += index_stoi;
+                    while (i < line.length()) {
+                        if (line[i] != ' ') {
+                            ++i;
+                            continue;
+                        }
+                        break;
+                    }
                 }
             }
             models.back().facets.push_back(face);
