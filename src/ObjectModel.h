@@ -27,11 +27,8 @@ public:
     PartObject &operator[](const std::size_t &);
     void OpenObject(std::string);
     void AddNewObject();
-    void reserve(std::size_t);
-    std::size_t size();
-    bool empty();
-    void clear();
-    PartObject &back();
+
+    std::vector<PartObject> models{};
 
 private:
     static ObjectModel *instance;
@@ -39,7 +36,6 @@ private:
     ObjectModel();
     ~ObjectModel();
 
-    std::vector<PartObject> models{};
 };
 
 #endif //CPP4_3DVIEWER_V2_0_1_OBJECTMODEL_H_

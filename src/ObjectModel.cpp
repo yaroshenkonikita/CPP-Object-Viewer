@@ -6,37 +6,14 @@ ObjectModel::ObjectModel() {
     models.reserve(0);
 }
 
-void ObjectModel::reserve(std::size_t size) {
-    models.reserve(size);
-}
-
 void ObjectModel::AddNewObject() {
     models.reserve(models.size() + 1);
     models.push_back(ObjectModel::PartObject());
 }
 
-std::size_t ObjectModel::size() {
-    return models.size();
-}
-
-bool ObjectModel::empty() {
-    return size() == 0;
-}
-
-void ObjectModel::clear() {
-    models.clear();
-}
-
-ObjectModel::PartObject &ObjectModel::back() {
-    if (empty()) {
-        throw std::invalid_argument("Models is empty");
-    }
-    return models.back();
-}
-
 void ObjectModel::OpenObject(std::string line) {
     std::ifstream file_in(line);
-    clear();
+    models.clear();
     while (std::getline(file_in, line)) {
         if (line.empty()) {
             continue;
@@ -46,14 +23,14 @@ void ObjectModel::OpenObject(std::string line) {
         } else if (line.length() < 2) {
             continue;
         } else if (line[0] == 'v' && line[1] == ' ') {
-            if (empty()) {
+            if (models.empty()) {
                 AddNewObject();
             }
             int count_vertex{};
             for (unsigned i{}; i < line.length(); ++i) {
                 if (std::isdigit(line[i]) || line[i] == '-') {
                     std::size_t index_stod{};
-                    back().vertexes.push_back(std::stod(line.c_str() + i, &index_stod));
+                    models.back().vertexes.push_back(std::stod(line.c_str() + i, &index_stod));
                     i += index_stod;
                     ++count_vertex;
                 }
@@ -62,7 +39,7 @@ void ObjectModel::OpenObject(std::string line) {
                 throw std::invalid_argument("Invalid file .obj");
             }
         } else if (line[0] == 'f') {
-            if (empty() || back().vertexes.empty()) {
+            if (models.empty() || models.back().vertexes.empty()) {
                 throw std::invalid_argument("Invalid file .obj");
             }
             std::vector<unsigned> face{};
@@ -74,7 +51,7 @@ void ObjectModel::OpenObject(std::string line) {
                     i += index_stoi;
                 }
             }
-            back().facets.push_back(face);
+            models.back().facets.push_back(face);
         }
     }
 }
@@ -124,16 +101,18 @@ int main () {
     a.OpenObject("/mnt/c/Users/12355/Documents/C8_3DViewer_v1.0-0/src/objs/cube.obj");
     a.OpenObject("/mnt/c/Users/12355/Documents/C8_3DViewer_v1.0-0/src/objs/cube.obj");
     a.OpenObject("/mnt/c/Users/12355/Documents/C8_3DViewer_v1.0-0/src/objs/cube.obj");
-    for (double vertex : a.back().vertexes) {
-        std::cout << vertex << " ";
-    }
-    std::cout << std::endl;
-    for (auto line : a.back().facets) {
-        for (unsigned item : line) {
-            std::cout << item << " ";
+    for (ObjectModel::PartObject part : a.models) {
+        for (double vertex : part.vertexes) {
+            std::cout << vertex << " ";
         }
         std::cout << std::endl;
+        for (auto line : part.facets) {
+            for (unsigned item : line) {
+                std::cout << item << " ";
+            }
+            std::cout << std::endl;
+        }
     }
-    std::cout << "models count: " << a.size() << std::endl;
+    std::cout << "models count: " << a.models.size() << std::endl;
     return 0;
 }
