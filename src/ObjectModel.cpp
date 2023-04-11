@@ -105,9 +105,7 @@ ObjectModel::PartObject &ObjectModel::PartObject::operator=(ObjectModel::PartObj
 
 int main () {
     ObjectModel &a = *ObjectModel::GetInstance();
-    a.OpenObject("/mnt/c/Users/12355/Documents/C8_3DViewer_v1.0-0/src/objs/cube.obj");
-    a.OpenObject("/mnt/c/Users/12355/Documents/C8_3DViewer_v1.0-0/src/objs/cube.obj");
-    a.OpenObject("/mnt/c/Users/12355/Documents/C8_3DViewer_v1.0-0/src/objs/cube.obj");
+    a.OpenObject("objs/skull.obj");
     for (ObjectModel::PartObject part : a.models) {
         for (double vertex : part.vertexes) {
             std::cout << vertex << " ";
