@@ -81,6 +81,53 @@ ObjectModel::PartObject &ObjectModel::operator[](const std::size_t &index) {
     return models[index];
 }
 
+void ObjectModel::Rotate(double angle, ObjectModel::Axis axis) {
+    for (auto &model : models) {
+        std::size_t index{};
+        double tmp_first{}, tmp_second;
+        if (axis == Axis::xAxis) {
+            for (; index < model.vertexes.size(); index += 3) {
+                tmp_first = model.vertexes[index + Axis::yAxis];
+                tmp_second = model.vertexes[index + Axis::zAxis];
+                model.vertexes[index + Axis::yAxis] = cos(angle) * tmp_first - sin(angle) * tmp_second;
+                model.vertexes[index + Axis::zAxis] = sin(angle) * tmp_first + cos(angle) * tmp_second;
+            }
+        } else if (axis == Axis::yAxis) {
+            for (; index < model.vertexes.size(); index += 3) {
+                tmp_first = model.vertexes[index + Axis::xAxis];
+                tmp_second = model.vertexes[index + Axis::zAxis];
+                model.vertexes[index + Axis::xAxis] = cos(angle) * tmp_first + sin(angle) * tmp_second;
+                model.vertexes[index + Axis::zAxis] = -sin(angle) * tmp_first + cos(angle) * tmp_second;
+            }
+        } else if (axis == Axis::zAxis) {
+            for (; index < model.vertexes.size(); index += 3) {
+                tmp_first = model.vertexes[index + Axis::xAxis];
+                tmp_second = model.vertexes[index + Axis::yAxis];
+                model.vertexes[index + Axis::xAxis] = cos(angle) * tmp_first - sin(angle) * tmp_second;
+                model.vertexes[index + Axis::yAxis] = sin(angle) * tmp_first + cos(angle) * tmp_second;
+            }
+        }
+    }
+}
+
+void ObjectModel::Move(double coordinate, ObjectModel::AxisPoints axis) {
+    for (auto &model : models) {
+        for (std::size_t index = axis; index < model.vertexes.size(); index += 3) {
+            model.vertexes[index] += coordinate;
+        }
+    }
+}
+
+void ObjectModel::Scale(double coordinate) {
+    coordinate = coordinate / 100.;
+    for (auto &model : models) {
+        for (double &vertex : model.vertexes) {
+            vertex *= coordinate;
+        }
+    }
+}
+
+
 ObjectModel::PartObject::PartObject(ObjectModel::PartObject &other) {
     facets = std::move(other.facets);
     vertexes = std::move(other.vertexes);
@@ -102,6 +149,8 @@ ObjectModel::PartObject &ObjectModel::PartObject::operator=(ObjectModel::PartObj
     vertexes = std::move(other.vertexes);
     return *this;
 }
+
+#include <iostream>
 
 int main () {
     ObjectModel &a = *ObjectModel::GetInstance();

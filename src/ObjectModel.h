@@ -2,13 +2,10 @@
 #define CPP4_3DVIEWER_V2_0_1_OBJECTMODEL_H_
 
 #include <stdexcept>
-#include <utility>
 #include <string>
 #include <fstream>
-#include <sstream>
-#include <iostream>
 #include <vector>
-#include <list>
+#include <cmath>
 
 class ObjectModel {
 public:
@@ -22,11 +19,16 @@ public:
         PartObject &operator=(PartObject &);
         PartObject &operator=(PartObject &&);
     };
+    typedef enum Axis { xAxis, yAxis, zAxis} AxisPoints;
     static ObjectModel* GetInstance();
 
     PartObject &operator[](const std::size_t &);
     void OpenObject(std::string);
     void AddNewObject();
+
+    void Move(double, AxisPoints);
+    void Rotate(double, AxisPoints);
+    void Scale(double);
 
     std::vector<PartObject> models{};
 
