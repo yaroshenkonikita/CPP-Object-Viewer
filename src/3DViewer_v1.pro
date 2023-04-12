@@ -11,12 +11,14 @@ SOURCES += \
     glview.cpp \
     main.cpp \
     mainwindow.cpp \
-    options.cpp
+    options.cpp \
+    ObjectModel.cpp
 
 HEADERS += \
     glview.h \
     mainwindow.h \
-    options.h
+    options.h \
+    ObjectModel.h
 
 FORMS += \
     mainwindow.ui \

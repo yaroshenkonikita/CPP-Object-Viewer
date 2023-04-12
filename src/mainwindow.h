@@ -8,7 +8,7 @@
 
 #include <QSettings>
 #include "QtGifImage/gifimage/qgifimage.h"
-#include "backend/3d_viewer.h"
+#include "ObjectModel.h"
 #include "options.h"
 
 QT_BEGIN_NAMESPACE

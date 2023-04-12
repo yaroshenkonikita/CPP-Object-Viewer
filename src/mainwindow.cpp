@@ -59,16 +59,16 @@ void MainWindow::on_button_open_path_clicked() {
   ui->label_path->setText(__buffpath);
   QByteArray ba = __buffpath.toLocal8Bit();  // convert Qstring->char *;
   char *filename = ba.data();                // convert Qstring->char *;
-  remove_object_t(&ui->widget->object);
-  if (!parsing_object_t(&ui->widget->object, filename)) {
-    centralize_object_t(&ui->widget->object);
-    double getScale = normalization_object_t(&ui->widget->object);
-    zoom_object_t(&ui->widget->object, getScale);
-    QString str_edges = QString::number(ui->widget->object.count_of_edges / 2);
-    ui->label_edges->setText("Edges : " + str_edges);
-    QString str_vertexes =
-        QString::number(ui->widget->object.count_of_vertexes / 3);
-    ui->label_vertexes->setText("Vertexes : " + str_vertexes);
+  ObjectModel &object = *ObjectModel::GetInstance();
+  object.models.clear();
+  object.OpenObject(filename);
+  if (!object.models.empty()) {
+//    centralize_object_t(&ui->widget->object);
+//    double getScale = normalization_object_t(&ui->widget->object);
+//    zoom_object_t(&ui->widget->object, getScale);
+      auto size_models = object.size();
+    ui->label_edges->setText("Facets : " + QString::number(size_models.second));
+    ui->label_vertexes->setText("Vertexes : " + QString::number(size_models.first));
   }
   ui->widget->update();
 }
@@ -115,37 +115,37 @@ void MainWindow::on_button_setting_clicked() {
 
 void MainWindow::on_rotate_x_returnPressed() {
   double val = ui->rotate_x->text().toDouble();
-  rotation_object_t(&ui->widget->object, val, xAxis);
+  ObjectModel::GetInstance()->Rotate(val, ObjectModel::xAxis);
   ui->widget->update();
 }
 
 void MainWindow::on_rotate_y_returnPressed() {
   double val = ui->rotate_y->text().toDouble();
-  rotation_object_t(&ui->widget->object, val, yAxis);
+  ObjectModel::GetInstance()->Rotate(val, ObjectModel::yAxis);
   ui->widget->update();
 }
 
 void MainWindow::on_rotate_z_returnPressed() {
   double val = ui->rotate_z->text().toDouble();
-  rotation_object_t(&ui->widget->object, val, zAxis);
+  ObjectModel::GetInstance()->Rotate(val, ObjectModel::zAxis);
   ui->widget->update();
 }
 
 void MainWindow::on_translate_x_returnPressed() {
   double val = ui->translate_x->text().toDouble();
-  moving_object_t(&ui->widget->object, val, xAxis);
+  ObjectModel::GetInstance()->Move(val, ObjectModel::xAxis);
   ui->widget->update();
 }
 
 void MainWindow::on_translate_y_returnPressed() {
   double val = ui->translate_y->text().toDouble();
-  moving_object_t(&ui->widget->object, val, yAxis);
+  ObjectModel::GetInstance()->Move(val, ObjectModel::yAxis);
   ui->widget->update();
 }
 
 void MainWindow::on_translate_z_returnPressed() {
   double val = ui->translate_z->text().toDouble();
-  moving_object_t(&ui->widget->object, val, zAxis);
+  ObjectModel::GetInstance()->Move(val, ObjectModel::zAxis);
   ui->widget->update();
 }
 
@@ -163,7 +163,7 @@ void MainWindow::on_button_Translate_pressed() {
 
 void MainWindow::on_scaleLineEdit_returnPressed() {
   double val = ui->scaleLineEdit->text().toDouble();
-  zoom_object_t(&ui->widget->object, val);
+  ObjectModel::GetInstance()->Scale(val);
   ui->widget->update();
 }
 

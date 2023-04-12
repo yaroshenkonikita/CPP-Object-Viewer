@@ -1,12 +1,8 @@
 #include "glview.h"
 
-#include "backend/3d_viewer.h"
-
 #define GL_SILENCE_DEPRECATION
 
-glview ::glview(QWidget* parent) : QOpenGLWidget{parent} {
-  object = {{0}, 0, 0, NULL, NULL};
-}
+glview ::glview(QWidget* parent) : QOpenGLWidget{parent} {}
 
 void glview ::initializeGL() {
   glEnable(GL_DEPTH_TEST);
@@ -29,14 +25,16 @@ void glview ::paintGL() {
     glLoadIdentity();
   }
   glEnableClientState(GL_VERTEX_ARRAY);
+  for (auto&model : ObjectModel::GetInstance()->models) {
+      glVertexPointer(3, GL_DOUBLE, 0, model.vertexes.data());
+      glClearColor(background_color[0], background_color[1], background_color[2],
+                   background_color[3]);  // цвет заднего фона
 
-  glVertexPointer(3, GL_DOUBLE, 0, object.vertexes);
-  glClearColor(background_color[0], background_color[1], background_color[2],
-               background_color[3]);  // цвет заднего фона
-
-  glColor3d(edge_color[0], edge_color[1], edge_color[2]);
-  glDrawElements(GL_LINES, object.count_of_edges, GL_UNSIGNED_INT,
-                 object.edges);
+      glColor3d(edge_color[0], edge_color[1], edge_color[2]);
+      for (auto &facet : model.facets) {
+          glDrawElements(GL_LINE_LOOP, (unsigned)facet.size(), GL_UNSIGNED_INT, facet.data());
+      }
+  }
   glLineWidth(edge_width);  // толщина ребра
   if (edge_type) {          //тип ребра
     glLineStipple(4, 0x1111);
@@ -44,15 +42,16 @@ void glview ::paintGL() {
     glLineStipple(4, 0xFFFF);
   }
   if (vertex_type) {  // тип вершины
+      auto size_models = ObjectModel::GetInstance()->size();
     if (vertex_type == 1) {
       glEnable(GL_POINT_SMOOTH);
       glColor3d(vertex_color[0], vertex_color[1], vertex_color[2]);
-      glDrawArrays(GL_POINTS, 0, object.count_of_vertexes / 3);
+      glDrawArrays(GL_POINTS, 0, size_models.first);
       glPointSize(vertex_width);  // толщина вершины
       glDisable(GL_POINT_SMOOTH);
     } else {
       glColor3d(vertex_color[0], vertex_color[1], vertex_color[2]);
-      glDrawArrays(GL_POINTS, 0, object.count_of_vertexes / 3);
+      glDrawArrays(GL_POINTS, 0, size_models.first);
       glPointSize(vertex_width);  // толщина вершины
     }
   }

@@ -7,6 +7,7 @@
 #include <QWheelEvent>
 #include <QOpenGLWidget>
 #include <cmath>
+#include "ObjectModel.h"
 
 
 #define GL_SILENCE_DEPRECATION
@@ -15,7 +16,7 @@ class glview : public QOpenGLWidget {
   Q_OBJECT
  public:
   QPoint mPos;
-  object_t object;
+  ObjectModel &object = *ObjectModel::GetInstance();
   int scaleVal = 1;
   int prev_scale = 1;
   glview(QWidget *parent = nullptr);
