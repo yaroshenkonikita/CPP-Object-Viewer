@@ -13,7 +13,7 @@ void glview ::initializeGL() {
 void glview ::paintGL() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   //Блок отвечает за проекцию
-  if (projection_type) {
+  if (settings.projection_type) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     float fov = 60.0 * M_PI / 180;  // 60 угол в градусах
@@ -27,32 +27,38 @@ void glview ::paintGL() {
   glEnableClientState(GL_VERTEX_ARRAY);
   for (auto&model : ObjectModel::GetInstance()->models) {
       glVertexPointer(3, GL_DOUBLE, 0, model.vertexes.data());
-      glClearColor(background_color[0], background_color[1], background_color[2],
-                   background_color[3]);  // цвет заднего фона
+      glClearColor(settings.background_color[0], settings.background_color[1], settings.background_color[2],
+                   settings.background_color[3]);  // цвет заднего фона
 
-      glColor3d(edge_color[0], edge_color[1], edge_color[2]);
-      for (auto &facet : model.facets) {
-          glDrawElements(GL_LINE_LOOP, (unsigned)facet.size(), GL_UNSIGNED_INT, facet.data());
+      glColor3d(settings.edge_color[0], settings.edge_color[1], settings.edge_color[2]);
+      if (settings.state_fill) {
+          for (auto &facet : model.facets) {
+              glDrawElements(GL_POLYGON, (unsigned)facet.size(), GL_UNSIGNED_INT, facet.data());
+          }
+      } else {
+          for (auto &facet : model.facets) {
+              glDrawElements(GL_LINE_LOOP, (unsigned)facet.size(), GL_UNSIGNED_INT, facet.data());
+          }
       }
   }
-  glLineWidth(edge_width);  // толщина ребра
-  if (edge_type) {          //тип ребра
+  glLineWidth(settings.edge_width);  // толщина ребра
+  if (settings.edge_type) {          //тип ребра
     glLineStipple(4, 0x1111);
   } else {
     glLineStipple(4, 0xFFFF);
   }
-  if (vertex_type) {  // тип вершины
+  if (settings.vertex_type) {  // тип вершины
       auto size_models = ObjectModel::GetInstance()->size();
-    if (vertex_type == 1) {
+    if (settings.vertex_type == 1) {
       glEnable(GL_POINT_SMOOTH);
-      glColor3d(vertex_color[0], vertex_color[1], vertex_color[2]);
+      glColor3d(settings.vertex_color[0], settings.vertex_color[1], settings.vertex_color[2]);
       glDrawArrays(GL_POINTS, 0, size_models.first);
-      glPointSize(vertex_width);  // толщина вершины
+      glPointSize(settings.vertex_width);  // толщина вершины
       glDisable(GL_POINT_SMOOTH);
     } else {
-      glColor3d(vertex_color[0], vertex_color[1], vertex_color[2]);
+      glColor3d(settings.vertex_color[0], settings.vertex_color[1], settings.vertex_color[2]);
       glDrawArrays(GL_POINTS, 0, size_models.first);
-      glPointSize(vertex_width);  // толщина вершины
+      glPointSize(settings.vertex_width);  // толщина вершины
     }
   }
   glDisableClientState(GL_VERTEX_ARRAY);
@@ -61,18 +67,18 @@ void glview ::paintGL() {
 void glview::mousePressEvent(QMouseEvent* mo) { mPos = mo->pos(); }
 
 void glview::mouseMoveEvent(QMouseEvent* mo) {
-  double val_x = 0.001 / M_PI * (mo->pos().y() - mPos.y());
+  double val_x = 0.0001 / M_PI * (mo->pos().y() - mPos.y());
   ObjectModel::GetInstance()->Rotate(val_x, ObjectModel::xAxis);
-  double val_y = 0.001 / M_PI * (mo->pos().x() - mPos.x());
+  double val_y = 0.0001 / M_PI * (mo->pos().x() - mPos.x());
   ObjectModel::GetInstance()->Rotate(val_y, ObjectModel::yAxis);
   update();
 }
 
 void glview::wheelEvent(QWheelEvent* event) {
   if (event->angleDelta().y() > 0) {
-    ObjectModel::GetInstance()->Scale(0.9);
+    ObjectModel::GetInstance()->Scale(97);
   } else {
-    ObjectModel::GetInstance()->Scale(1.1);
+    ObjectModel::GetInstance()->Scale(103);
   }
   update();
 }

@@ -20,35 +20,35 @@ MainWindow::~MainWindow() {
 
 void MainWindow::load_Settings() {
   // выгружаем значения(имя настройки, значение по умолчанию(если не задано))
-  ui->widget->projection_type = settings->value("projection_type", 0).toInt();
-  ui->widget->edge_type = settings->value("edge_type", 0).toInt();
-  ui->widget->vertex_type = settings->value("vertex_type", 0).toInt();
-  ui->widget->background_color[0] =
+  ui->widget->settings.projection_type = settings->value("projection_type", 0).toInt();
+  ui->widget->settings.edge_type = settings->value("edge_type", 0).toInt();
+  ui->widget->settings.vertex_type = settings->value("vertex_type", 0).toInt();
+  ui->widget->settings.background_color[0] =
       settings->value("background_color_red", 0.0).toFloat();
-  ui->widget->background_color[1] =
+  ui->widget->settings.background_color[1] =
       settings->value("background_color_green", 0.0).toFloat();
-  ui->widget->background_color[2] =
+  ui->widget->settings.background_color[2] =
       settings->value("background_color_blue", 0.0).toFloat();
-  ui->widget->background_color[3] =
+  ui->widget->settings.background_color[3] =
       settings->value("background_color_alpha", 1.0).toFloat();
-  ui->widget->edge_color[0] =
+  ui->widget->settings.edge_color[0] =
       settings->value("edge_color_red", 255.0).toFloat();
-  ui->widget->edge_color[1] =
+  ui->widget->settings.edge_color[1] =
       settings->value("edge_color_green", 255.0).toFloat();
-  ui->widget->edge_color[2] =
+  ui->widget->settings.edge_color[2] =
       settings->value("edge_color_blue", 255.0).toFloat();
-  ui->widget->edge_color[3] =
+  ui->widget->settings.edge_color[3] =
       settings->value("edge_color_alpha", 1.0).toFloat();
-  ui->widget->vertex_color[0] =
+  ui->widget->settings.vertex_color[0] =
       settings->value("vertex_color_red", 0.0).toFloat();
-  ui->widget->vertex_color[1] =
+  ui->widget->settings.vertex_color[1] =
       settings->value("vertex_color_green", 255.0).toFloat();
-  ui->widget->vertex_color[2] =
+  ui->widget->settings.vertex_color[2] =
       settings->value("vertex_color_blue", 0.0).toFloat();
-  ui->widget->vertex_color[3] =
+  ui->widget->settings.vertex_color[3] =
       settings->value("vertex_color_alpha", 1.0).toFloat();
-  ui->widget->edge_width = settings->value("edge_width", 1.0).toFloat();
-  ui->widget->vertex_width = settings->value("vertex_width", 1.0).toFloat();
+  ui->widget->settings.edge_width = settings->value("edge_width", 1.0).toFloat();
+  ui->widget->settings.vertex_width = settings->value("vertex_width", 1.0).toFloat();
 }
 
 void MainWindow::on_actionClose_triggered() { close(); }

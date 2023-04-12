@@ -1,6 +1,6 @@
 #include "ObjectModel.h"
 
-ObjectModel* ObjectModel::instance{};
+ObjectModel* ObjectModel::instance = nullptr;
 
 ObjectModel::ObjectModel() {
     models.reserve(0);
@@ -15,15 +15,11 @@ void ObjectModel::OpenObject(std::string line) {
     std::ifstream file_in(line);
     models.clear();
     while (std::getline(file_in, line)) {
-        if (line.empty()) {
+        if (line.length() < 2) {
             continue;
         }
-        if (line[0] == 'g') {
-            AddNewObject();
-        } else if (line.length() < 2) {
-            continue;
-        } else if (line[0] == 'v' && line[1] == ' ') {
-            if (models.empty()) {
+        if (line[0] == 'v' && line[1] == ' ') {
+            if (models.empty() || !models.back().facets.empty()) {
                 AddNewObject();
             }
             int count_vertex{};
@@ -42,21 +38,11 @@ void ObjectModel::OpenObject(std::string line) {
             if (models.empty() || models.back().vertexes.empty()) {
                 throw std::invalid_argument("Invalid file .obj");
             }
+            char* token = strtok(line.data() + 1, " ");
             std::vector<unsigned> face{};
-
-            for (unsigned i{}; i < line.length(); ++i) {
-                if (std::isdigit(line[i]) || line[i] == '-') {
-                    std::size_t index_stoi{};
-                    face.push_back(std::abs(std::stoi(line.c_str() + i, &index_stoi)));
-                    i += index_stoi;
-                    while (i < line.length()) {
-                        if (line[i] != ' ') {
-                            ++i;
-                            continue;
-                        }
-                        break;
-                    }
-                }
+            while (token) {
+                face.push_back(std::stoi(token) - 1);
+                token = strtok(nullptr, " ");
             }
             models.back().facets.push_back(face);
         }
@@ -163,7 +149,7 @@ ObjectModel::PartObject &ObjectModel::PartObject::operator=(ObjectModel::PartObj
 
 //int main () {
 //    ObjectModel &a = *ObjectModel::GetInstance();
-//    a.OpenObject("objs/skull.obj");
+//    a.OpenObject("objs/cube.obj");
 //    for (ObjectModel::PartObject part : a.models) {
 //        for (double vertex : part.vertexes) {
 //            std::cout << vertex << " ";
