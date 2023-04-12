@@ -5,10 +5,9 @@
 #include <QMouseEvent>
 #include <QOpenGLFunctions>
 #include <QWheelEvent>
-#include <QtOpenGLWidgets/QOpenGLWidget>
+#include <QOpenGLWidget>
 #include <cmath>
 
-#include "backend/3d_viewer.h"
 
 #define GL_SILENCE_DEPRECATION
 

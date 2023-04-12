@@ -6,11 +6,10 @@
 #include <QTimer>
 #include <cstring>
 
-#include "QSettings"
+#include <QSettings>
 #include "QtGifImage/gifimage/qgifimage.h"
 #include "backend/3d_viewer.h"
 #include "options.h"
-#include "ui_mainwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
