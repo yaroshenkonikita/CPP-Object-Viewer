@@ -61,18 +61,18 @@ void glview ::paintGL() {
 void glview::mousePressEvent(QMouseEvent* mo) { mPos = mo->pos(); }
 
 void glview::mouseMoveEvent(QMouseEvent* mo) {
-  rotation_object_t(&object, (0.001 / M_PI * (mo->pos().y() - mPos.y())) * -1,
-                    xAxis);
-  rotation_object_t(&object, (0.001 / M_PI * (mo->pos().x() - mPos.x())) * -1,
-                    yAxis);
+  double val_x = 0.001 / M_PI * (mo->pos().y() - mPos.y());
+  ObjectModel::GetInstance()->Rotate(val_x, ObjectModel::xAxis);
+  double val_y = 0.001 / M_PI * (mo->pos().x() - mPos.x());
+  ObjectModel::GetInstance()->Rotate(val_y, ObjectModel::yAxis);
   update();
 }
 
 void glview::wheelEvent(QWheelEvent* event) {
   if (event->angleDelta().y() > 0) {
-    zoom_object_t(&object, 0.9);
+    ObjectModel::GetInstance()->Scale(0.9);
   } else {
-    zoom_object_t(&object, 1.1);
+    ObjectModel::GetInstance()->Scale(1.1);
   }
   update();
 }

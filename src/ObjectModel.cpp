@@ -161,21 +161,21 @@ ObjectModel::PartObject &ObjectModel::PartObject::operator=(ObjectModel::PartObj
 
 #include <iostream>
 
-int main () {
-    ObjectModel &a = *ObjectModel::GetInstance();
-    a.OpenObject("objs/skull.obj");
-    for (ObjectModel::PartObject part : a.models) {
-        for (double vertex : part.vertexes) {
-            std::cout << vertex << " ";
-        }
-        std::cout << std::endl;
-        for (auto line : part.facets) {
-            for (unsigned item : line) {
-                std::cout << item << " ";
-            }
-            std::cout << std::endl;
-        }
-    }
-    std::cout << "models count: " << a.models.size() << std::endl;
-    return 0;
-}
+//int main () {
+//    ObjectModel &a = *ObjectModel::GetInstance();
+//    a.OpenObject("objs/skull.obj");
+//    for (ObjectModel::PartObject part : a.models) {
+//        for (double vertex : part.vertexes) {
+//            std::cout << vertex << " ";
+//        }
+//        std::cout << std::endl;
+//        for (auto line : part.facets) {
+//            for (unsigned item : line) {
+//                std::cout << item << " ";
+//            }
+//            std::cout << std::endl;
+//        }
+//    }
+//    std::cout << "models count: " << a.models.size() << std::endl;
+//    return 0;
+//}
