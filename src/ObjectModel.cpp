@@ -124,7 +124,7 @@ void ObjectModel::RelocateOnStartPosition() {
     Move(-(positionAxis[xAxis] + deltaAxis[xAxis] / 2), xAxis);
     Move(-(positionAxis[yAxis] + deltaAxis[yAxis] / 2), yAxis);
     Move(-(positionAxis[zAxis] + deltaAxis[zAxis] / 2), zAxis);
-    Scale(1/std::max(std::max(deltaAxis[xAxis], deltaAxis[yAxis]), deltaAxis[zAxis]));
+    Scale(100/std::max(std::max(deltaAxis[xAxis], deltaAxis[yAxis]), deltaAxis[zAxis]));
 }
 
 //#include <iostream>
