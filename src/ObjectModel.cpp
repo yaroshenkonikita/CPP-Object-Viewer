@@ -2,25 +2,18 @@
 
 ObjectModel* ObjectModel::instance = nullptr;
 
-ObjectModel::ObjectModel() {
-    models.reserve(0);
-}
-
-void ObjectModel::AddNewObject() {
-    models.reserve(models.size() + 1);
-    models.push_back(ObjectModel::PartObject());
-}
-
 void ObjectModel::OpenObject(std::string line) {
     std::ifstream file_in(line);
-    models.clear();
+    std::vector<PartObject> models = {PartObject()};
+    std::size_t position_old_vertexes{};
     while (std::getline(file_in, line)) {
         if (line.length() < 2) {
             continue;
         }
         if (line[0] == 'v' && line[1] == ' ') {
-            if (models.empty() || !models.back().facets.empty()) {
-                AddNewObject();
+            if (models.back().facets.size()) {
+                position_old_vertexes += models.back().vertexes.size() / 3;
+                models.emplace_back();
             }
             int count_vertex{};
             for (unsigned i{}; i < line.length(); ++i) {
@@ -38,15 +31,20 @@ void ObjectModel::OpenObject(std::string line) {
             if (models.empty() || models.back().vertexes.empty()) {
                 throw std::invalid_argument("Invalid file .obj");
             }
-            char* token = strtok(line.data() + 1, " ");
+            char* token = std::strtok(line.data() + 1, " ");
             std::vector<unsigned> face{};
             while (token) {
-                face.push_back(std::stoi(token) - 1);
+                face.push_back(std::abs(std::stol(token)) - 1 + position_old_vertexes);
                 token = strtok(nullptr, " ");
             }
             models.back().facets.push_back(face);
         }
     }
+    for(auto &model_parse : models) {
+        model.vertexes.insert(model.vertexes.end(), model_parse.vertexes.begin(), model_parse.vertexes.end());
+        model.facets.insert(model.facets.end(), model_parse.facets.begin(), model_parse.facets.end());
+    }
+    RelocateOnStartPosition();
 }
 
 ObjectModel *ObjectModel::GetInstance() {
@@ -61,107 +59,96 @@ ObjectModel::~ObjectModel() {
 }
 
 std::pair<std::size_t, std::size_t> ObjectModel::size() {
-    std::size_t size_f{}, size_v{};
-    for (auto&model : ObjectModel::GetInstance()->models) {
-        size_f += model.facets.size();
-        size_v += model.vertexes.size();
-    }
-    return {size_v, size_f};
-}
-
-ObjectModel::PartObject &ObjectModel::operator[](const std::size_t &index) {
-    if (index >= models.capacity()) {
-        throw std::invalid_argument("Cannot access models greater then capacity");
-    }
-    return models[index];
+    return {model.vertexes.size(), model.facets.size()};
 }
 
 void ObjectModel::Rotate(double angle, ObjectModel::Axis axis) {
-    for (auto &model : models) {
-        std::size_t index{};
-        double tmp_first{}, tmp_second;
-        if (axis == Axis::xAxis) {
-            for (; index < model.vertexes.size(); index += 3) {
-                tmp_first = model.vertexes[index + Axis::yAxis];
-                tmp_second = model.vertexes[index + Axis::zAxis];
-                model.vertexes[index + Axis::yAxis] = cos(angle) * tmp_first - sin(angle) * tmp_second;
-                model.vertexes[index + Axis::zAxis] = sin(angle) * tmp_first + cos(angle) * tmp_second;
-            }
-        } else if (axis == Axis::yAxis) {
-            for (; index < model.vertexes.size(); index += 3) {
-                tmp_first = model.vertexes[index + Axis::xAxis];
-                tmp_second = model.vertexes[index + Axis::zAxis];
-                model.vertexes[index + Axis::xAxis] = cos(angle) * tmp_first + sin(angle) * tmp_second;
-                model.vertexes[index + Axis::zAxis] = -sin(angle) * tmp_first + cos(angle) * tmp_second;
-            }
-        } else if (axis == Axis::zAxis) {
-            for (; index < model.vertexes.size(); index += 3) {
-                tmp_first = model.vertexes[index + Axis::xAxis];
-                tmp_second = model.vertexes[index + Axis::yAxis];
-                model.vertexes[index + Axis::xAxis] = cos(angle) * tmp_first - sin(angle) * tmp_second;
-                model.vertexes[index + Axis::yAxis] = sin(angle) * tmp_first + cos(angle) * tmp_second;
-            }
+    std::size_t index{};
+    double tmp_first{}, tmp_second;
+    if (axis == Axis::xAxis) {
+        for (; index < model.vertexes.size(); index += 3) {
+            tmp_first = model.vertexes[index + Axis::yAxis];
+            tmp_second = model.vertexes[index + Axis::zAxis];
+            model.vertexes[index + Axis::yAxis] = cos(angle) * tmp_first - sin(angle) * tmp_second;
+            model.vertexes[index + Axis::zAxis] = sin(angle) * tmp_first + cos(angle) * tmp_second;
+        }
+    } else if (axis == Axis::yAxis) {
+        for (; index < model.vertexes.size(); index += 3) {
+            tmp_first = model.vertexes[index + Axis::xAxis];
+            tmp_second = model.vertexes[index + Axis::zAxis];
+            model.vertexes[index + Axis::xAxis] = cos(angle) * tmp_first + sin(angle) * tmp_second;
+            model.vertexes[index + Axis::zAxis] = -sin(angle) * tmp_first + cos(angle) * tmp_second;
+        }
+    } else if (axis == Axis::zAxis) {
+        for (; index < model.vertexes.size(); index += 3) {
+            tmp_first = model.vertexes[index + Axis::xAxis];
+            tmp_second = model.vertexes[index + Axis::yAxis];
+            model.vertexes[index + Axis::xAxis] = cos(angle) * tmp_first - sin(angle) * tmp_second;
+            model.vertexes[index + Axis::yAxis] = sin(angle) * tmp_first + cos(angle) * tmp_second;
         }
     }
 }
 
 void ObjectModel::Move(double coordinate, ObjectModel::AxisPoints axis) {
-    for (auto &model : models) {
-        for (std::size_t index = axis; index < model.vertexes.size(); index += 3) {
-            model.vertexes[index] += coordinate;
-        }
+    for (std::size_t index = axis; index < model.vertexes.size(); index += 3) {
+        model.vertexes[index] += coordinate;
     }
 }
 
 void ObjectModel::Scale(double coordinate) {
     coordinate = coordinate / 100.;
-    for (auto &model : models) {
-        for (double &vertex : model.vertexes) {
-            vertex *= coordinate;
-        }
+    for (double &vertex : model.vertexes) {
+        vertex *= coordinate;
     }
 }
 
-
-ObjectModel::PartObject::PartObject(ObjectModel::PartObject &other) {
-    facets = std::move(other.facets);
-    vertexes = std::move(other.vertexes);
+bool ObjectModel::empty() {
+    return model.vertexes.empty() || model.facets.empty();
 }
 
-ObjectModel::PartObject::PartObject(ObjectModel::PartObject &&other) noexcept {
-    facets = std::move(other.facets);
-    vertexes = std::move(other.vertexes);
+void ObjectModel::RelocateOnStartPosition() {
+    if (empty()) {
+        throw std::logic_error("Can't relocate. Haven't exist model");
+    }
+    double positionAxis[6] = {DBL_MAX, DBL_MAX, DBL_MAX, -DBL_MAX, -DBL_MAX, -DBL_MAX};
+    for (std::size_t index = 0; index < model.vertexes.size(); index += 3) {
+        positionAxis[xAxis] = std::min(positionAxis[xAxis], model.vertexes[index + xAxis]);
+        positionAxis[yAxis] = std::min(positionAxis[yAxis], model.vertexes[index + yAxis]);
+        positionAxis[zAxis] = std::min(positionAxis[zAxis], model.vertexes[index + zAxis]);
+        positionAxis[xAxis + 3] = std::max(positionAxis[xAxis + 3], model.vertexes[index + xAxis]);
+        positionAxis[yAxis + 3] = std::max(positionAxis[yAxis + 3], model.vertexes[index + yAxis]);
+        positionAxis[zAxis + 3] = std::max(positionAxis[zAxis + 3], model.vertexes[index + zAxis]);
+    }
+    double deltaAxis[3] = {positionAxis[xAxis + 3] - positionAxis[xAxis],
+                           positionAxis[yAxis + 3] - positionAxis[yAxis],
+                           positionAxis[zAxis + 3] - positionAxis[zAxis]};
+    Move(-(positionAxis[xAxis] + deltaAxis[xAxis] / 2), xAxis);
+    Move(-(positionAxis[yAxis] + deltaAxis[yAxis] / 2), yAxis);
+    Move(-(positionAxis[zAxis] + deltaAxis[zAxis] / 2), zAxis);
+    Scale(100/std::max(std::max(deltaAxis[xAxis], deltaAxis[yAxis]), deltaAxis[zAxis]));
 }
 
-ObjectModel::PartObject &ObjectModel::PartObject::operator=(ObjectModel::PartObject &other) {
-    facets = std::move(other.facets);
-    vertexes = std::move(other.vertexes);
-    return *this;
+void ObjectModel::clear() {
+    model.facets.clear();
+    model.vertexes.clear();
 }
 
-ObjectModel::PartObject &ObjectModel::PartObject::operator=(ObjectModel::PartObject &&other) {
-    facets = std::move(other.facets);
-    vertexes = std::move(other.vertexes);
-    return *this;
-}
-
-#include <iostream>
-
+//#include <iostream>
+//
 //int main () {
 //    ObjectModel &a = *ObjectModel::GetInstance();
-//    a.OpenObject("objs/cube.obj");
-//    for (ObjectModel::PartObject part : a.models) {
-//        for (double vertex : part.vertexes) {
-//            std::cout << vertex << " ";
+//    a.OpenObject("objs/skull.obj");
+//    for (double vertex : a.model.vertexes) {
+//        std::cout << vertex << " ";
+//    }
+//    std::cout << std::endl;
+//    for (auto line : a.model.facets) {
+//        for (unsigned item : line) {
+//            std::cout << item << " ";
 //        }
 //        std::cout << std::endl;
-//        for (auto line : part.facets) {
-//            for (unsigned item : line) {
-//                std::cout << item << " ";
-//            }
-//            std::cout << std::endl;
-//        }
 //    }
-//    std::cout << "models count: " << a.models.size() << std::endl;
+//    std::cout << a.model.vertexes.size() << std::endl;
+//    std::cout << a.model.facets.size() << std::endl;
 //    return 0;
 //}
