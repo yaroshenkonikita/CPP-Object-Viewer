@@ -34,7 +34,12 @@ void ObjectModel::OpenObject(std::string line) {
             char* token = std::strtok(line.data() + 1, " ");
             std::vector<unsigned> face{};
             while (token) {
-                face.push_back(std::abs(std::stol(token)) - 1 + position_old_vertexes);
+                long tmp = std::stol(token);
+                if (tmp < 0) {
+                    face.push_back(std::abs(tmp) - 1 + position_old_vertexes);
+                } else {
+                    face.push_back(tmp - 1);
+                }
                 token = strtok(nullptr, " ");
             }
             models.back().facets.push_back(face);

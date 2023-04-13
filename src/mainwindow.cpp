@@ -57,17 +57,25 @@ void MainWindow::on_actionClose_triggered() { close(); }
 void MainWindow::on_button_open_path_clicked() {
   __buffpath = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
                                             tr("Objects Files (*.obj)"));
+
+  if (__buffpath.isEmpty()) {
+      return;
+  }
   ui->label_path->setText(__buffpath);
   QByteArray ba = __buffpath.toLocal8Bit();  // convert Qstring->char *;
   char *filename = ba.data();                // convert Qstring->char *;
   ObjectModel &model_data = *ObjectModel::GetInstance();
   model_data.clear();
-  model_data.OpenObject(filename);
-  if (!model_data.empty()) {
-      auto size_models = model_data.size();
-    ui->label_edges->setText("Facets : " + QString::number(size_models.second));
-    ui->label_vertexes->setText("Vertexes : " + QString::number(size_models.first));
+
+  try {
+      model_data.OpenObject(filename);
+  } catch (std::exception &e) {
+      QMessageBox::warning(this, "Error",
+                                 e.what());
   }
+  auto size_models = model_data.size();
+  ui->label_edges->setText("Facets : " + QString::number(size_models.second));
+  ui->label_vertexes->setText("Vertexes : " + QString::number(size_models.first));
   ui->widget->update();
 }
 

@@ -53,3 +53,4 @@ dkms.conf
 
 # .user files
 src/*.pro.user
+build*
