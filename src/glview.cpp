@@ -25,21 +25,18 @@ void glview ::paintGL() {
     glLoadIdentity();
   }
   glEnableClientState(GL_VERTEX_ARRAY);
-  for (auto&model : ObjectModel::GetInstance()->models) {
-      glVertexPointer(3, GL_DOUBLE, 0, model.vertexes.data());
-      glClearColor(settings.background_color[0], settings.background_color[1], settings.background_color[2],
-                   settings.background_color[3]);  // цвет заднего фона
+  ObjectModel &model_data = *ObjectModel::GetInstance();
+  glVertexPointer(3, GL_DOUBLE, 0, model_data.model.vertexes.data());
+  glClearColor(settings.background_color[0], settings.background_color[1], settings.background_color[2],
+               settings.background_color[3]);  // цвет заднего фона
 
-      glColor3d(settings.edge_color[0], settings.edge_color[1], settings.edge_color[2]);
-      if (settings.state_fill) {
-          for (auto &facet : model.facets) {
-              glDrawElements(GL_POLYGON, (unsigned)facet.size(), GL_UNSIGNED_INT, facet.data());
-          }
-      } else {
-          for (auto &facet : model.facets) {
-              glDrawElements(GL_LINE_LOOP, (unsigned)facet.size(), GL_UNSIGNED_INT, facet.data());
-          }
-      }
+  glColor3d(settings.edge_color[0], settings.edge_color[1], settings.edge_color[2]);
+  auto gl_state_poligons = GL_LINE_LOOP;
+  if (settings.state_fill) {
+      gl_state_poligons = GL_POLYGON;
+  }
+  for (auto &facet : model_data.model.facets) {
+      glDrawElements(gl_state_poligons, (unsigned)facet.size(), GL_UNSIGNED_INT, facet.data());
   }
   glLineWidth(settings.edge_width);  // толщина ребра
   if (settings.edge_type) {          //тип ребра

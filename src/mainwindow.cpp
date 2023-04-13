@@ -59,14 +59,11 @@ void MainWindow::on_button_open_path_clicked() {
   ui->label_path->setText(__buffpath);
   QByteArray ba = __buffpath.toLocal8Bit();  // convert Qstring->char *;
   char *filename = ba.data();                // convert Qstring->char *;
-  ObjectModel &object = *ObjectModel::GetInstance();
-  object.models.clear();
-  object.OpenObject(filename);
-  if (!object.models.empty()) {
-//    centralize_object_t(&ui->widget->object);
-//    double getScale = normalization_object_t(&ui->widget->object);
-//    zoom_object_t(&ui->widget->object, getScale);
-      auto size_models = object.size();
+  ObjectModel &model_data = *ObjectModel::GetInstance();
+  model_data.clear();
+  model_data.OpenObject(filename);
+  if (!model_data.empty()) {
+      auto size_models = model_data.size();
     ui->label_edges->setText("Facets : " + QString::number(size_models.second));
     ui->label_vertexes->setText("Vertexes : " + QString::number(size_models.first));
   }
