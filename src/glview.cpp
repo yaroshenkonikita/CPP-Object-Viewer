@@ -64,10 +64,11 @@ void glview ::paintGL() {
 void glview::mousePressEvent(QMouseEvent* mouse) { mPos = mouse->pos(); }
 
 void glview::mouseMoveEvent(QMouseEvent* mouse) {
-  double val_x = 0.0001 / M_PI * (mouse->pos().y() - mPos.y());
+  double val_x = 0.01 / M_PI * (mouse->pos().y() - mPos.y());
   ObjectModel::GetInstance()->Rotate(val_x, ObjectModel::xAxis);
-  double val_y = 0.0001 / M_PI * (mouse->pos().x() - mPos.x());
+  double val_y = 0.01 / M_PI * (mouse->pos().x() - mPos.x());
   ObjectModel::GetInstance()->Rotate(val_y, ObjectModel::yAxis);
+  mPos = mouse->pos();
   update();
 }
 
