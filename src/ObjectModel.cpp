@@ -44,6 +44,7 @@ void ObjectModel::OpenObject(std::string line) {
         model.vertexes.insert(model.vertexes.end(), model_parse.vertexes.begin(), model_parse.vertexes.end());
         model.facets.insert(model.facets.end(), model_parse.facets.begin(), model_parse.facets.end());
     }
+    RelocateOnStartPosition();
 }
 
 ObjectModel *ObjectModel::GetInstance() {
@@ -125,6 +126,11 @@ void ObjectModel::RelocateOnStartPosition() {
     Move(-(positionAxis[yAxis] + deltaAxis[yAxis] / 2), yAxis);
     Move(-(positionAxis[zAxis] + deltaAxis[zAxis] / 2), zAxis);
     Scale(100/std::max(std::max(deltaAxis[xAxis], deltaAxis[yAxis]), deltaAxis[zAxis]));
+}
+
+void ObjectModel::clear() {
+    model.facets.clear();
+    model.vertexes.clear();
 }
 
 //#include <iostream>
