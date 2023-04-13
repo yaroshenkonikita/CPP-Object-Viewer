@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -9,7 +9,6 @@
 
 #include <QSettings>
 #include "QtGifImage/gifimage/qgifimage.h"
-#include "ObjectModel.h"
 #include "options.h"
 
 QT_BEGIN_NAMESPACE
@@ -24,13 +23,12 @@ class MainWindow : public QMainWindow {
  public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
-  QString __buffpath;
   Ui::MainWindow *ui;
   QSettings *settings;  // настройки
 
  private:
-  QTimer *_timer;
-  QGifImage *_gif;
+  QTimer *timer_;
+  QGifImage *gif_;
 
  private slots:
   void on_actionClose_triggered();
@@ -47,6 +45,7 @@ class MainWindow : public QMainWindow {
   void on_button_moving_clicked();
   void on_button_rotate_clicked();
   void on_button_scaling_clicked();
+  void on_button_reset_position_clicked();
 };
 
-#endif  // MAINWINDOW_H
+#endif  // CONTROLLER_H

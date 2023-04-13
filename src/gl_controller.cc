@@ -1,22 +1,22 @@
-#include "glview.h"
+#include "gl_controller.h"
 
 #define GL_SILENCE_DEPRECATION
 
-glview ::glview(QWidget* parent) : QOpenGLWidget{parent} {}
+GLController ::GLController(QWidget* parent) : QOpenGLWidget{parent} {}
 
-void glview ::initializeGL() {
+void GLController ::initializeGL() {
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_COLOR_MATERIAL);
   glEnable(GL_LINE_STIPPLE);
 }
 
-void glview ::paintGL() {
+void GLController ::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     double width_widget = this->width(), height_widget = this->height();
     if (width_widget > height_widget)
-        glOrtho(-2.0 * (width_widget/height_widget), 2.0 * (width_widget/height_widget), -2.0, 2.0, -1.0, 1.0);
+        glOrtho(-2.0 * (width_widget/height_widget), 2.0 * (width_widget/height_widget), -2.0, 2.0, -100, 100);
     else
-        glOrtho(-2.0, 2.0, -2.0 * (height_widget/width_widget), 2.0 * (height_widget/width_widget), -1.0, 1.0);
+        glOrtho(-2.0, 2.0, -2.0 * (height_widget/width_widget), 2.0 * (height_widget/width_widget), -100, 100);
   //Блок отвечает за проекцию
   if (settings.projection_type) {
     glMatrixMode(GL_PROJECTION);
@@ -66,9 +66,9 @@ void glview ::paintGL() {
   glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void glview::mousePressEvent(QMouseEvent* mouse) { mPos = mouse->pos(); }
+void GLController::mousePressEvent(QMouseEvent* mouse) { mPos = mouse->pos(); }
 
-void glview::mouseMoveEvent(QMouseEvent* mouse) {
+void GLController::mouseMoveEvent(QMouseEvent* mouse) {
   double val_x = 0.01 / M_PI * (mouse->pos().y() - mPos.y());
   ObjectModel::GetInstance()->Rotate(val_x, ObjectModel::xAxis);
   double val_y = 0.01 / M_PI * (mouse->pos().x() - mPos.x());
@@ -77,7 +77,7 @@ void glview::mouseMoveEvent(QMouseEvent* mouse) {
   update();
 }
 
-void glview::wheelEvent(QWheelEvent* event) {
+void GLController::wheelEvent(QWheelEvent* event) {
   if (event->angleDelta().y() > 0) {
     ObjectModel::GetInstance()->Scale(97);
   } else {

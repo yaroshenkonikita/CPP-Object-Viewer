@@ -8,21 +8,21 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    glview.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    options.cpp \
-    ObjectModel.cpp
+    controller.cc \
+    gl_controller.cc \
+    main.cc \
+    object_model.cc \
+    options.cc
 
 HEADERS += \
-    glview.h \
-    mainwindow.h \
-    options.h \
-    ObjectModel.h
+    controller.h \
+    gl_controller.h \
+    object_model.h \
+    options.h
 
 FORMS += \
-    mainwindow.ui \
-    options.ui
+    options.ui \
+    view.ui
 
 macx:ICON = $${PWD}/icon/3DviewerLogo.icns
 

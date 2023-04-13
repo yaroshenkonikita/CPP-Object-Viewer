@@ -1,6 +1,4 @@
 #include "options.h"
-
-#include "mainwindow.h"
 #include "ui_options.h"
 
 options::options(QWidget *parent) : QDialog(parent), ui(new Ui::options) {

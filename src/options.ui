@@ -557,8 +557,8 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="edge_group"/>
   <buttongroup name="facet_group"/>
   <buttongroup name="vertex_group"/>
+  <buttongroup name="edge_group"/>
  </buttongroups>
 </ui>

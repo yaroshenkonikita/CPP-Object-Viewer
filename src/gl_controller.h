@@ -1,5 +1,5 @@
-#ifndef GLVIEW_H
-#define GLVIEW_H
+#ifndef GL_CONTROLLER_H
+#define GL_CONTROLLER_H
 
 #include <QColorDialog>
 #include <QMouseEvent>
@@ -7,19 +7,19 @@
 #include <QWheelEvent>
 #include <QOpenGLWidget>
 #include <cmath>
-#include "ObjectModel.h"
+#include "object_model.h"
 
 
 #define GL_SILENCE_DEPRECATION
 
-class glview : public QOpenGLWidget {
+class GLController : public QOpenGLWidget {
   Q_OBJECT
  public:
   QPoint mPos;
   ObjectModel &object = *ObjectModel::GetInstance();
   int scaleVal = 1;
   int prev_scale = 1;
-  glview(QWidget *parent = nullptr);
+  GLController(QWidget *parent = nullptr);
 
   void initializeGL() override;
   void paintGL() override;
@@ -30,4 +30,4 @@ class glview : public QOpenGLWidget {
   Options_t settings;
 };
 
-#endif  // GLVIEW_H
+#endif  // GL_CONTROLLER_H

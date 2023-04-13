@@ -1,6 +1,6 @@
 #include <QApplication>
 
-#include "mainwindow.h"
+#include "controller.h"
 
 int main(int argc, char *argv[]) {
   setenv("LC_NUMERIC", "en_US.UTF-8", 1);

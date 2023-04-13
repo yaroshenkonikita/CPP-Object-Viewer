@@ -1,21 +1,21 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "controller.h"
+#include "ui_view.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
-      _timer(new QTimer),
-      _gif(nullptr) {
+      timer_(new QTimer),
+      gif_(nullptr) {
   ui->setupUi(this);
 
-  connect(_timer, SIGNAL(timeout()), this, SLOT(takeFrame()));
+  connect(timer_, SIGNAL(timeout()), this, SLOT(takeFrame()));
   settings = new QSettings("3Danger_Masters", "3DViewer_v1", this);
   load_Settings();
 }
 
 MainWindow::~MainWindow() {
   delete ui;
-  delete _timer;
+  delete timer_;
 }
 
 void MainWindow::load_Settings() {
@@ -55,20 +55,18 @@ void MainWindow::load_Settings() {
 void MainWindow::on_actionClose_triggered() { close(); }
 
 void MainWindow::on_button_open_path_clicked() {
-  __buffpath = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
+  QString path = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
                                             tr("Objects Files (*.obj)"));
 
-  if (__buffpath.isEmpty()) {
+  if (path.isEmpty()) {
       return;
   }
-  ui->label_path->setText(__buffpath);
-  QByteArray ba = __buffpath.toLocal8Bit();  // convert Qstring->char *;
-  char *filename = ba.data();                // convert Qstring->char *;
+  ui->label_path->setText(path);
   ObjectModel &model_data = *ObjectModel::GetInstance();
   model_data.clear();
 
   try {
-      model_data.OpenObject(filename);
+      model_data.OpenObject(path.toStdString());
   } catch (std::exception &e) {
       QMessageBox::warning(this, "Error",
                                  e.what());
@@ -93,20 +91,20 @@ void MainWindow::on_button_bmp_clicked() {
 
 void MainWindow::on_button_gif_clicked() {
   ui->button_gif->setText("Gif is recording");
-  _gif = new QGifImage;
-  _timer->start(100);
+  gif_ = new QGifImage;
+  timer_->start(100);
 }
 
 void MainWindow::takeFrame() {
-  if (_gif->frameCount() < 50) {
+  if (gif_->frameCount() < 50) {
     QImage frame = ui->widget->grabFramebuffer();
-    _gif->addFrame(frame.scaled(640, 480), 0);
+    gif_->addFrame(frame.scaled(640, 480), 0);
   } else {
-    _timer->stop();
+    timer_->stop();
     ui->button_gif->setText("Recording is Finish");
     QString file = QFileDialog::getSaveFileName(this, "Save as...", "name.gif",
                                                 "GIF (*.gif)");
-    _gif->save(file);
+    gif_->save(file);
     ui->button_gif->setText("Record gif");
   }
 }
@@ -137,6 +135,12 @@ void MainWindow::on_button_rotate_clicked() {
 
 void MainWindow::on_button_scaling_clicked() {
     ObjectModel::GetInstance()->Scale(ui->scaling->value());
+    ui->widget->update();
+}
+
+
+void MainWindow::on_button_reset_position_clicked() {
+    ObjectModel::GetInstance()->RelocateOnStartPosition();
     ui->widget->update();
 }
 
