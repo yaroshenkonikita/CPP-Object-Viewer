@@ -40,11 +40,9 @@ void options::loadSettings() {
   settings_data.edge_type = settings->value("edge_type", 0).toInt();
   settings_data.vertex_type = settings->value("vertex_type", 0).toInt();
   settings_data.background_color[0] = settings->value("background_color_red", 0.0).toFloat();
-  settings_data.background_color[1] =
-      settings->value("background_color_green", 0.0).toFloat();
+  settings_data.background_color[1] = settings->value("background_color_green", 0.0).toFloat();
   settings_data.background_color[2] = settings->value("background_color_blue", 0.0).toFloat();
-  settings_data.background_color[3] =
-      settings->value("background_color_alpha", 1.0).toFloat();
+  settings_data.background_color[3] = settings->value("background_color_alpha", 1.0).toFloat();
   settings_data.edge_color[0] = settings->value("edge_color_red", 255.0).toFloat();
   settings_data.edge_color[1] = settings->value("edge_color_green", 255.0).toFloat();
   settings_data.edge_color[2] = settings->value("edge_color_blue", 255.0).toFloat();
@@ -53,8 +51,8 @@ void options::loadSettings() {
   settings_data.vertex_color[1] = settings->value("vertex_color_green", 255.0).toFloat();
   settings_data.vertex_color[2] = settings->value("vertex_color_blue", 0.0).toFloat();
   settings_data.vertex_color[3] = settings->value("vertex_color_alpha", 1.0).toFloat();
-  settings_data.edge_width = settings->value("edge_width", 1.0).toFloat();
-  settings_data.vertex_width = settings->value("vertex_width", 1.0).toFloat();
+  settings_data.edge_width = settings->value("edge_width", 10).toInt();
+  settings_data.vertex_width = settings->value("vertex_width", 10).toInt();
   settings_data.state_fill = settings->value("facet_type", false).toBool();
 }
 
@@ -164,6 +162,7 @@ void options::on_button_color_edges_clicked() {
 void options::on_horizontalSlider_size_vertexes_sliderMoved(int position) {
   settings_data.vertex_width = position;
 }
+
 void options::on_horizontalSlider_wigth_edges_sliderMoved(int position) {
   settings_data.edge_width = position;
 }

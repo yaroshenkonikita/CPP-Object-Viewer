@@ -11,7 +11,12 @@ void glview ::initializeGL() {
 }
 
 void glview ::paintGL() {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    double width_widget = this->width(), height_widget = this->height();
+    if (width_widget > height_widget)
+        glOrtho(-2.0 * (width_widget/height_widget), 2.0 * (width_widget/height_widget), -2.0, 2.0, -1.0, 1.0);
+    else
+        glOrtho(-2.0, 2.0, -2.0 * (height_widget/width_widget), 2.0 * (height_widget/width_widget), -1.0, 1.0);
   //Блок отвечает за проекцию
   if (settings.projection_type) {
     glMatrixMode(GL_PROJECTION);
@@ -36,7 +41,7 @@ void glview ::paintGL() {
       gl_state_poligons = GL_POLYGON;
   }
   for (auto &facet : model_data.model.facets) {
-      glDrawElements(gl_state_poligons, (unsigned)facet.size(), GL_UNSIGNED_INT, facet.data());
+      glDrawElements(gl_state_poligons, facet.size(), GL_UNSIGNED_INT, facet.data());
   }
   glLineWidth(settings.edge_width);  // толщина ребра
   if (settings.edge_type) {          //тип ребра
@@ -49,12 +54,12 @@ void glview ::paintGL() {
     if (settings.vertex_type == 1) {
       glEnable(GL_POINT_SMOOTH);
       glColor3d(settings.vertex_color[0], settings.vertex_color[1], settings.vertex_color[2]);
-      glDrawArrays(GL_POINTS, 0, size_models.first);
+      glDrawArrays(GL_POINTS, 0, size_models.first - 1);
       glPointSize(settings.vertex_width);  // толщина вершины
       glDisable(GL_POINT_SMOOTH);
     } else {
       glColor3d(settings.vertex_color[0], settings.vertex_color[1], settings.vertex_color[2]);
-      glDrawArrays(GL_POINTS, 0, size_models.first);
+      glDrawArrays(GL_POINTS, 0, size_models.first - 1);
       glPointSize(settings.vertex_width);  // толщина вершины
     }
   }

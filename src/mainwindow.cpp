@@ -75,7 +75,7 @@ void MainWindow::on_button_open_path_clicked() {
   }
   auto size_models = model_data.size();
   ui->label_edges->setText("Facets : " + QString::number(size_models.second));
-  ui->label_vertexes->setText("Vertexes : " + QString::number(size_models.first));
+  ui->label_vertexes->setText("Vertexes : " + QString::number(size_models.first / 3));
   ui->widget->update();
 }
 
