@@ -7,6 +7,7 @@ options::options(QWidget *parent) : QDialog(parent), ui(new Ui::options) {
   settings = new QSettings("3Danger_Masters", "3DViewer_v1", this);
   loadSettings();
   ui->setupUi(this);
+  putTheValues();
 }
 
 options::~options() { delete ui; }
@@ -30,6 +31,7 @@ void options::saveSettings() {
   settings->setValue("background_color_alpha", settings_data.background_color[3]);
   settings->setValue("edge_width", settings_data.edge_width);
   settings->setValue("vertex_width", settings_data.vertex_width);
+  settings->setValue("facet_type", settings_data.state_fill);
 }
 
 void options::loadSettings() {
@@ -53,6 +55,58 @@ void options::loadSettings() {
   settings_data.vertex_color[3] = settings->value("vertex_color_alpha", 1.0).toFloat();
   settings_data.edge_width = settings->value("edge_width", 1.0).toFloat();
   settings_data.vertex_width = settings->value("vertex_width", 1.0).toFloat();
+  settings_data.state_fill = settings->value("facet_type", false).toBool();
+}
+
+void options::putTheValues() {
+    // Вписываем в окно подгруженные настройки
+    if (settings_data.projection_type) {
+        ui->radioButton_central->setChecked(true);
+    } else {
+        ui->radioButton_parallel->setChecked(true);
+    }
+
+    QString color_background("background: rgb(" + QString::number(settings_data.background_color[0] * 255) + "," +
+              QString::number(settings_data.background_color[1] * 255) + "," +
+              QString::number(settings_data.background_color[2] * 255) + ")");
+    ui->button_background->setStyleSheet(color_background);
+
+    if (settings_data.edge_type) {
+        ui->radioButton_dashed->setChecked(true);
+    } else {
+        ui->radioButton_solid->setChecked(true);
+    }
+
+    QString color_edges("background: rgb(" + QString::number(settings_data.edge_color[0] * 255) + "," +
+              QString::number(settings_data.edge_color[1] * 255) + "," +
+              QString::number(settings_data.edge_color[2] * 255) + ")");
+    ui->button_color_edges->setStyleSheet(color_edges);
+
+    QString color_vertexes("background: rgb(" + QString::number(settings_data.vertex_color[0] * 255) + "," +
+              QString::number(settings_data.vertex_color[1] * 255) + "," +
+              QString::number(settings_data.vertex_color[2] * 255) + ")");
+    ui->button_color_vertexes->setStyleSheet(color_vertexes);
+
+    switch(settings_data.vertex_type) {
+    case 0:
+        ui->radioButton_vertex_nope->setChecked(true);
+        break;
+    case 1:
+        ui->radioButton_vertex_shere->setChecked(true);
+        break;
+    case 2:
+        ui->radioButton_vertex_cube->setChecked(true);
+        break;
+    }
+
+    ui->horizontalSlider_wigth_edges->setSliderPosition(settings_data.edge_width);
+    ui->horizontalSlider_size_vertexes->setSliderPosition(settings_data.vertex_width);
+
+    if (settings_data.state_fill) {
+        ui->polygon_facets->setChecked(true);
+    } else {
+        ui->frame_facets->setChecked(true);
+    }
 }
 
 void options::on_button_apply_clicked() {
@@ -64,38 +118,47 @@ void options::on_button_cancel_clicked() { QWidget::close(); }
 
 void options::on_button_background_clicked() {
   QColor color = QColorDialog::getColor(Qt::white, this, tr("Select Color"));
+  if (!color.isValid()) {
+      return;
+  }
   settings_data.background_color[0] = color.redF();
   settings_data.background_color[1] = color.greenF();
   settings_data.background_color[2] = color.blueF();
   settings_data.background_color[3] = color.alphaF();
-  QString s("background: rgb(" + QString::number(color.redF() * 255) + "," +
+  QString color_background("background: rgb(" + QString::number(color.redF() * 255) + "," +
             QString::number(color.greenF() * 255) + "," +
             QString::number(color.blueF() * 255) + ")");
-  ui->button_background->setStyleSheet(s);
+  ui->button_background->setStyleSheet(color_background);
 }
 
 void options::on_button_color_vertexes_clicked() {
   QColor color = QColorDialog::getColor(Qt::white, this, tr("Select Color"));
+  if (!color.isValid()) {
+      return;
+  }
   settings_data.vertex_color[0] = color.redF();
   settings_data.vertex_color[1] = color.greenF();
   settings_data.vertex_color[2] = color.blueF();
   settings_data.vertex_color[3] = color.alphaF();
-  QString s("background: rgb(" + QString::number(color.redF() * 255) + "," +
+  QString color_vertexes("background: rgb(" + QString::number(color.redF() * 255) + "," +
             QString::number(color.greenF() * 255) + "," +
             QString::number(color.blueF() * 255) + ")");
-  ui->button_color_vertexes->setStyleSheet(s);
+  ui->button_color_vertexes->setStyleSheet(color_vertexes);
 }
 
 void options::on_button_color_edges_clicked() {
   QColor color = QColorDialog::getColor(Qt::white, this, tr("Select Color"));
+  if (!color.isValid()) {
+      return;
+  }
   settings_data.edge_color[0] = color.redF();
   settings_data.edge_color[1] = color.greenF();
   settings_data.edge_color[2] = color.blueF();
   settings_data.edge_color[3] = color.alphaF();
-  QString s("background: rgb(" + QString::number(color.redF() * 255) + "," +
+  QString color_edges("background: rgb(" + QString::number(color.redF() * 255) + "," +
             QString::number(color.greenF() * 255) + "," +
             QString::number(color.blueF() * 255) + ")");
-  ui->button_color_edges->setStyleSheet(s);
+  ui->button_color_edges->setStyleSheet(color_edges);
 }
 
 void options::on_horizontalSlider_size_vertexes_sliderMoved(int position) {
@@ -114,3 +177,8 @@ void options::on_radioButton_vertex_nope_clicked() { settings_data.vertex_type =
 
 void options::on_radioButton_central_clicked() { settings_data.projection_type = 1; }
 void options::on_radioButton_parallel_clicked() { settings_data.projection_type = 0; }
+
+void options::on_frame_facets_clicked() { settings_data.state_fill = false; }
+
+void options::on_polygon_facets_clicked() { settings_data.state_fill = true; }
+

@@ -30,7 +30,7 @@
       <x>600</x>
       <y>10</y>
       <width>384</width>
-      <height>561</height>
+      <height>571</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -38,50 +38,26 @@
       <number>10</number>
      </property>
      <property name="horizontalSpacing">
-      <number>-1</number>
+      <number>6</number>
      </property>
-     <item row="3" column="1" colspan="2">
-      <widget class="QLabel" name="label_edges">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>15</height>
-        </size>
-       </property>
+     <item row="11" column="1" colspan="2">
+      <widget class="QPushButton" name="button_rotate">
        <property name="text">
-        <string>Edges:</string>
+        <string>Rotate</string>
        </property>
       </widget>
      </item>
-     <item row="13" column="1">
-      <widget class="QPushButton" name="button_jpeg">
-       <property name="minimumSize">
-        <size>
-         <width>170</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>170</width>
-         <height>16777215</height>
-        </size>
-       </property>
+     <item row="14" column="1" colspan="2">
+      <widget class="QPushButton" name="button_gif">
        <property name="text">
-        <string>Save to jpeg</string>
+        <string>Record gif</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
-      <widget class="QLabel" name="label_translate_z">
+     <item row="15" column="1" colspan="2">
+      <widget class="QPushButton" name="button_setting">
        <property name="text">
-        <string>Z :</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <string>Setting</string>
        </property>
       </widget>
      </item>
@@ -101,69 +77,10 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="2">
-      <widget class="QLineEdit" name="rotate_x"/>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLabel" name="label_translate_y">
+     <item row="0" column="1" colspan="2">
+      <widget class="QPushButton" name="button_open_path">
        <property name="text">
-        <string>Y :</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="15" column="1" colspan="2">
-      <widget class="QPushButton" name="button_setting">
-       <property name="text">
-        <string>Setting</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1" colspan="2">
-      <widget class="QPushButton" name="button_Translate">
-       <property name="text">
-        <string>Moving</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="2">
-      <widget class="QLineEdit" name="translate_z"/>
-     </item>
-     <item row="11" column="1" colspan="2">
-      <widget class="QPushButton" name="button_Rotate">
-       <property name="text">
-        <string>Rotate</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="2">
-      <widget class="QLineEdit" name="scaleLineEdit"/>
-     </item>
-     <item row="2" column="1" colspan="2">
-      <widget class="QLabel" name="label_vertexes">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>15</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Vertexes: </string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="QLabel" name="label_rotate_x">
-       <property name="text">
-        <string>X :</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <string>Open file</string>
        </property>
       </widget>
      </item>
@@ -186,43 +103,56 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
-      <widget class="QLabel" name="label_rotate_y">
+     <item row="12" column="1">
+      <widget class="QPushButton" name="button_scaling">
        <property name="text">
-        <string>Y :</string>
+        <string>Scaling</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QLabel" name="label_translate_z">
+       <property name="text">
+        <string>Z :</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
-     <item row="0" column="1" colspan="2">
-      <widget class="QPushButton" name="button_open_path">
+     <item row="3" column="1" colspan="2">
+      <widget class="QLabel" name="label_edges">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>15</height>
+        </size>
+       </property>
        <property name="text">
-        <string>Open file</string>
+        <string>Edges:</string>
        </property>
       </widget>
      </item>
-     <item row="10" column="2">
-      <widget class="QLineEdit" name="rotate_z"/>
-     </item>
-     <item row="14" column="1" colspan="2">
-      <widget class="QPushButton" name="button_gif">
+     <item row="8" column="1">
+      <widget class="QLabel" name="label_rotate_x">
        <property name="text">
-        <string>Record gif</string>
+        <string>X :</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
-     <item row="9" column="2">
-      <widget class="QLineEdit" name="rotate_y"/>
-     </item>
-     <item row="4" column="2">
-      <widget class="QLineEdit" name="translate_x"/>
-     </item>
-     <item row="12" column="1">
-      <widget class="QPushButton" name="scalingButton">
+     <item row="5" column="1">
+      <widget class="QLabel" name="label_translate_y">
        <property name="text">
-        <string>Scaling</string>
+        <string>Y :</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
@@ -239,8 +169,132 @@
        </property>
       </widget>
      </item>
+     <item row="7" column="1" colspan="2">
+      <widget class="QPushButton" name="button_moving">
+       <property name="text">
+        <string>Moving</string>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="1">
+      <widget class="QPushButton" name="button_jpeg">
+       <property name="minimumSize">
+        <size>
+         <width>170</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>170</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Save to jpeg</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="2">
+      <widget class="QLabel" name="label_vertexes">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>15</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Vertexes: </string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="2">
+      <widget class="QDoubleSpinBox" name="scaling">
+       <property name="suffix">
+        <string>%</string>
+       </property>
+       <property name="minimum">
+        <double>0.010000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>100.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QDoubleSpinBox" name="moving_x">
+       <property name="minimum">
+        <double>-2.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>2.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+      </widget>
+     </item>
      <item row="5" column="2">
-      <widget class="QLineEdit" name="translate_y"/>
+      <widget class="QDoubleSpinBox" name="moving_y">
+       <property name="minimum">
+        <double>-2.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>2.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="2">
+      <widget class="QDoubleSpinBox" name="moving_z">
+       <property name="minimum">
+        <double>-2.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>2.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="2">
+      <widget class="QDoubleSpinBox" name="rotate_x">
+       <property name="minimum">
+        <double>-100.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>100.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="2">
+      <widget class="QDoubleSpinBox" name="rotate_y">
+       <property name="minimum">
+        <double>-100.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>100.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="2">
+      <widget class="QDoubleSpinBox" name="rotate_z">
+       <property name="minimum">
+        <double>-100.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>100.000000000000000</double>
+       </property>
+      </widget>
      </item>
      <item row="10" column="1">
       <widget class="QLabel" name="label_rotate_z">
@@ -252,25 +306,18 @@
        </property>
       </widget>
      </item>
+     <item row="9" column="1">
+      <widget class="QLabel" name="label_rotate_y">
+       <property name="text">
+        <string>Y :</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>990</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuAr">
-    <property name="title">
-     <string>Ar</string>
-    </property>
-    <addaction name="actionClose"/>
-   </widget>
-   <addaction name="menuAr"/>
   </widget>
   <action name="actionClose">
    <property name="text">

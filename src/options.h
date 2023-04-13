@@ -18,11 +18,12 @@ class options : public QDialog {
   ~options();
   QSettings *settings;
 
-Options_t settings_data;
+  Options_t settings_data;
  private slots:
   void on_radioButton_central_clicked();
   void saveSettings();
   void loadSettings();
+  void putTheValues();
 
   void on_button_apply_clicked();
   void on_button_cancel_clicked();
@@ -43,7 +44,11 @@ Options_t settings_data;
   void on_radioButton_vertex_cube_clicked();
   void on_radioButton_vertex_nope_clicked();
 
- private:
+  void on_frame_facets_clicked();
+
+  void on_polygon_facets_clicked();
+
+private:
   Ui::options *ui;
 };
 

@@ -49,6 +49,7 @@ void MainWindow::load_Settings() {
       settings->value("vertex_color_alpha", 1.0).toFloat();
   ui->widget->settings.edge_width = settings->value("edge_width", 1.0).toFloat();
   ui->widget->settings.vertex_width = settings->value("vertex_width", 1.0).toFloat();
+  ui->widget->settings.state_fill = settings->value("facet_type", false).toBool();
 }
 
 void MainWindow::on_actionClose_triggered() { close(); }
@@ -113,60 +114,24 @@ void MainWindow::on_button_setting_clicked() {
   ui->widget->update();
 }
 
-void MainWindow::on_rotate_x_returnPressed() {
-  double val = ui->rotate_x->text().toDouble();
-  ObjectModel::GetInstance()->Rotate(val, ObjectModel::xAxis);
-  ui->widget->update();
+void MainWindow::on_button_moving_clicked() {
+    ObjectModel::GetInstance()->Move(ui->moving_x->value(), ObjectModel::xAxis);
+    ObjectModel::GetInstance()->Move(ui->moving_y->value(), ObjectModel::yAxis);
+    ObjectModel::GetInstance()->Move(ui->moving_z->value(), ObjectModel::zAxis);
+    ui->widget->update();
 }
 
-void MainWindow::on_rotate_y_returnPressed() {
-  double val = ui->rotate_y->text().toDouble();
-  ObjectModel::GetInstance()->Rotate(val, ObjectModel::yAxis);
-  ui->widget->update();
+
+void MainWindow::on_button_rotate_clicked() {
+    ObjectModel::GetInstance()->Rotate(ui->rotate_x->value(), ObjectModel::xAxis);
+    ObjectModel::GetInstance()->Rotate(ui->rotate_y->value(), ObjectModel::yAxis);
+    ObjectModel::GetInstance()->Rotate(ui->rotate_z->value(), ObjectModel::zAxis);
+    ui->widget->update();
 }
 
-void MainWindow::on_rotate_z_returnPressed() {
-  double val = ui->rotate_z->text().toDouble();
-  ObjectModel::GetInstance()->Rotate(val, ObjectModel::zAxis);
-  ui->widget->update();
+
+void MainWindow::on_button_scaling_clicked() {
+    ObjectModel::GetInstance()->Scale(ui->scaling->value());
+    ui->widget->update();
 }
 
-void MainWindow::on_translate_x_returnPressed() {
-  double val = ui->translate_x->text().toDouble();
-  ObjectModel::GetInstance()->Move(val, ObjectModel::xAxis);
-  ui->widget->update();
-}
-
-void MainWindow::on_translate_y_returnPressed() {
-  double val = ui->translate_y->text().toDouble();
-  ObjectModel::GetInstance()->Move(val, ObjectModel::yAxis);
-  ui->widget->update();
-}
-
-void MainWindow::on_translate_z_returnPressed() {
-  double val = ui->translate_z->text().toDouble();
-  ObjectModel::GetInstance()->Move(val, ObjectModel::zAxis);
-  ui->widget->update();
-}
-
-void MainWindow::on_button_Rotate_pressed() {
-  on_rotate_x_returnPressed();
-  on_rotate_y_returnPressed();
-  on_rotate_z_returnPressed();
-}
-
-void MainWindow::on_button_Translate_pressed() {
-  on_translate_x_returnPressed();
-  on_translate_y_returnPressed();
-  on_translate_z_returnPressed();
-}
-
-void MainWindow::on_scaleLineEdit_returnPressed() {
-  double val = ui->scaleLineEdit->text().toDouble();
-  ObjectModel::GetInstance()->Scale(val);
-  ui->widget->update();
-}
-
-void MainWindow::on_scalingButton_pressed() {
-  on_scaleLineEdit_returnPressed();
-}

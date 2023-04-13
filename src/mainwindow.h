@@ -38,21 +38,14 @@ class MainWindow : public QMainWindow {
   void on_button_bmp_clicked();
   void on_button_gif_clicked();
   void takeFrame();
-  // установка значений по нажанию на Enter
-  void on_rotate_x_returnPressed();
-  void on_rotate_y_returnPressed();
-  void on_rotate_z_returnPressed();
-  void on_translate_x_returnPressed();
-  void on_translate_y_returnPressed();
-  void on_translate_z_returnPressed();
-  void on_scaleLineEdit_returnPressed();
   // установка значений по нажанию на соответствующую кнопку
-  void on_button_Rotate_pressed();
-  void on_button_Translate_pressed();
-  void on_scalingButton_pressed();
 
   void on_button_setting_clicked();
   void load_Settings();  // подгрузить настройки
+
+  void on_button_moving_clicked();
+  void on_button_rotate_clicked();
+  void on_button_scaling_clicked();
 };
 
 #endif  // MAINWINDOW_H

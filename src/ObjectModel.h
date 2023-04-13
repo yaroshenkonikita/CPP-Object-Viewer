@@ -18,7 +18,7 @@ struct Options_t {
     vertex_color[4]{},        // Цвет вершины {red, green, blue}
     edge_width{},             // Толщина ребра
     vertex_width{};           // толщина вершины
-    bool state_fill{};
+    bool state_fill{};        // Полигон или каркас
 };
 
 class ObjectModel {
