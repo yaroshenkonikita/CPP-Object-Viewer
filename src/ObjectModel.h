@@ -31,22 +31,21 @@ public:
     typedef enum Axis { xAxis, yAxis, zAxis} AxisPoints;
     static ObjectModel* GetInstance();
 
-    PartObject &operator[](const std::size_t &);
     void OpenObject(std::string);
-    void AddNewObject();
 
     void Move(double, AxisPoints);
     void Rotate(double, AxisPoints);
     void Scale(double);
     void RelocateOnStartPosition();
+    bool empty();
     std::pair<std::size_t, std::size_t> size();
 
-    std::vector<PartObject> models{};
+    PartObject model{};
 
 private:
     static ObjectModel *instance;
 
-    ObjectModel();
+    ObjectModel() = default;
     ~ObjectModel();
 
 };
