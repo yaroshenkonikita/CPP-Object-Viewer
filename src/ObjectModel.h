@@ -8,6 +8,7 @@
 #include <cmath>
 #include <utility>
 #include <cstring>
+#include <float.h>
 
 struct Options_t {
     int projection_type{},        // Тип проекции
@@ -24,14 +25,8 @@ struct Options_t {
 class ObjectModel {
 public:
     struct PartObject {
-        PartObject() = default;
-        PartObject(PartObject&);
-        PartObject(PartObject&&) noexcept;
-        ~PartObject() = default;
         std::vector<std::vector<unsigned>> facets{};
         std::vector<double> vertexes{};
-        PartObject &operator=(PartObject &);
-        PartObject &operator=(PartObject &&);
     };
     typedef enum Axis { xAxis, yAxis, zAxis} AxisPoints;
     static ObjectModel* GetInstance();
@@ -43,6 +38,7 @@ public:
     void Move(double, AxisPoints);
     void Rotate(double, AxisPoints);
     void Scale(double);
+    void RelocateOnStartPosition();
     std::pair<std::size_t, std::size_t> size();
 
     std::vector<PartObject> models{};
