@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QColorDialog>
 #include <QSettings>
-#include "object_model.h"
+#include "Model/object_model.h"
 
 namespace Ui {
 class options;
