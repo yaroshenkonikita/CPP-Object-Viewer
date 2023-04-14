@@ -9,7 +9,7 @@
 
 #include <QSettings>
 #include "QtGifImage/gifimage/qgifimage.h"
-#include "options.h"
+#include "../SettingsClass/options.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

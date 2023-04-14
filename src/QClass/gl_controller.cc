@@ -14,9 +14,9 @@ void GLController ::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     double width_widget = this->width(), height_widget = this->height();
     if (width_widget > height_widget)
-        glOrtho(-2.0 * (width_widget/height_widget), 2.0 * (width_widget/height_widget), -2.0, 2.0, -100, 100);
+        glOrtho(-2.0 * (width_widget/height_widget), 2.0 * (width_widget/height_widget), -2.0, 2.0, -5, 5);
     else
-        glOrtho(-2.0, 2.0, -2.0 * (height_widget/width_widget), 2.0 * (height_widget/width_widget), -100, 100);
+        glOrtho(-2.0, 2.0, -2.0 * (height_widget/width_widget), 2.0 * (height_widget/width_widget), -5, 5);
   //Блок отвечает за проекцию
   if (settings.projection_type) {
     glMatrixMode(GL_PROJECTION);

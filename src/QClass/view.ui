@@ -459,7 +459,7 @@
   <customwidget>
    <class>GLController</class>
    <extends>QWidget</extends>
-   <header location="global">gl_controller.h</header>
+   <header location="global">QClass/gl_controller.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

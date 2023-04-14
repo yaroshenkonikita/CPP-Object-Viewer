@@ -7,7 +7,8 @@
 #include <QWheelEvent>
 #include <QOpenGLWidget>
 #include <cmath>
-#include "Model/object_model.h"
+#include "../Facade/object_model.h"
+#include "../SettingsClass/options_t.h"
 
 
 #define GL_SILENCE_DEPRECATION

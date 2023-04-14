@@ -1,4 +1,4 @@
-#include "object_model.h"
+#include "../object_model.h"
 
 void ObjectModel::ParsingVertex(std::vector<PartObject> &models, std::string & line, std::size_t &position_old_vertexes) {
     if (models.back().facets.size()) {
@@ -46,9 +46,9 @@ void ObjectModel::OpenObject(std::string line) {
             continue;
         }
         if (line[0] == 'v' && line[1] == ' ') {
-            ParsingVertex(models, line);
+            ParsingVertex(models, line, position_old_vertexes);
         } else if (line[0] == 'f') {
-            ParsingFacet(models, line);
+            ParsingFacet(models, line, position_old_vertexes);
         }
     }
     for(auto &model_parse : models) {

@@ -281,7 +281,7 @@ EGifPutScreenDesc(GifFileType *GifFile,
     write_version = EGifGetGifVersion(GifFile);
 
     /* First write the version prefix into the file. */
-    if (InternalWrite(GifFile, (unsigned char *)write_version,
+    if ((unsigned long)InternalWrite(GifFile, (unsigned char *)write_version,
               strlen(write_version)) != strlen(write_version)) {
         GifFile->Error = E_GIF_ERR_WRITE_FAILED;
         return GIF_ERROR;
@@ -702,7 +702,7 @@ EGifPutCode(GifFileType *GifFile, int CodeSize, const GifByteType *CodeBlock)
         GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
     }
-
+    ++CodeSize; // for warning
     /* No need to dump code size as Compression set up does any for us: */
     /* 
      * Buf = CodeSize;
@@ -727,7 +727,7 @@ EGifPutCodeNext(GifFileType *GifFile, const GifByteType *CodeBlock)
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
     if (CodeBlock != NULL) {
-        if (InternalWrite(GifFile, CodeBlock, CodeBlock[0] + 1)
+        if ((unsigned)InternalWrite(GifFile, CodeBlock, CodeBlock[0] + 1)
                != (unsigned)(CodeBlock[0] + 1)) {
             GifFile->Error = E_GIF_ERR_WRITE_FAILED;
             return GIF_ERROR;
