@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include <QColorDialog>
-#include <QSettings>
 #include "../Facade/Mediator/object_model.h"
 #include "options_t.h"
 
@@ -17,13 +16,9 @@ class options : public QDialog {
  public:
   explicit options(QWidget *parent = nullptr);
   ~options();
-  QSettings *settings;
 
-  Options_t settings_data;
  private slots:
   void on_radioButton_central_clicked();
-  void saveSettings();
-  void loadSettings();
   void putTheValues();
 
   void on_button_apply_clicked();
@@ -51,6 +46,7 @@ class options : public QDialog {
 
 private:
   Ui::options *ui;
+    Options_t settings_data;
 };
 
 #endif  // OPTIONS_H

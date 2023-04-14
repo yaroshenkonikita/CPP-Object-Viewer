@@ -24,7 +24,6 @@ class MainWindow : public QMainWindow {
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
   Ui::MainWindow *ui;
-  QSettings *settings;  // настройки
 
  private:
   QTimer *timer_;
@@ -40,7 +39,6 @@ class MainWindow : public QMainWindow {
   // установка значений по нажанию на соответствующую кнопку
 
   void on_button_setting_clicked();
-  void load_Settings();  // подгрузить настройки
 
   void on_button_moving_clicked();
   void on_button_rotate_clicked();

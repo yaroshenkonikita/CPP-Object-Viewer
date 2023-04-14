@@ -2,57 +2,12 @@
 #include "ui_options.h"
 
 options::options(QWidget *parent) : QDialog(parent), ui(new Ui::options) {
-  settings = new QSettings("3Danger_Masters", "3DViewer_v1", this);
-  loadSettings();
-  ui->setupUi(this);
+  settings_data.LoadSettings();
+    ui->setupUi(this);
   putTheValues();
 }
 
 options::~options() { delete ui; }
-
-void options::saveSettings() {
-  // задаем значения(имя настройки, значение)
-  settings->setValue("projection_type", settings_data.projection_type);
-  settings->setValue("edge_type", settings_data.edge_type);
-  settings->setValue("vertex_type", settings_data.vertex_type);
-  settings->setValue("edge_color_red", settings_data.edge_color[0]);
-  settings->setValue("edge_color_green", settings_data.edge_color[1]);
-  settings->setValue("edge_color_blue", settings_data.edge_color[2]);
-  settings->setValue("edge_color_alpha", settings_data.edge_color[3]);
-  settings->setValue("vertex_color_red", settings_data.vertex_color[0]);
-  settings->setValue("vertex_color_green", settings_data.vertex_color[1]);
-  settings->setValue("vertex_color_blue", settings_data.vertex_color[2]);
-  settings->setValue("vertex_color_alpha", settings_data.vertex_color[3]);
-  settings->setValue("background_color_red", settings_data.background_color[0]);
-  settings->setValue("background_color_green", settings_data.background_color[1]);
-  settings->setValue("background_color_blue", settings_data.background_color[2]);
-  settings->setValue("background_color_alpha", settings_data.background_color[3]);
-  settings->setValue("edge_width", settings_data.edge_width);
-  settings->setValue("vertex_width", settings_data.vertex_width);
-  settings->setValue("facet_type", settings_data.state_fill);
-}
-
-void options::loadSettings() {
-  // выгружаем значения(имя настройки, значение по умолчанию(если не задано))
-  settings_data.projection_type = settings->value("projection_type", 0).toInt();
-  settings_data.edge_type = settings->value("edge_type", 0).toInt();
-  settings_data.vertex_type = settings->value("vertex_type", 0).toInt();
-  settings_data.background_color[0] = settings->value("background_color_red", 0.0).toFloat();
-  settings_data.background_color[1] = settings->value("background_color_green", 0.0).toFloat();
-  settings_data.background_color[2] = settings->value("background_color_blue", 0.0).toFloat();
-  settings_data.background_color[3] = settings->value("background_color_alpha", 1.0).toFloat();
-  settings_data.edge_color[0] = settings->value("edge_color_red", 255.0).toFloat();
-  settings_data.edge_color[1] = settings->value("edge_color_green", 255.0).toFloat();
-  settings_data.edge_color[2] = settings->value("edge_color_blue", 255.0).toFloat();
-  settings_data.edge_color[3] = settings->value("edge_color_alpha", 1.0).toFloat();
-  settings_data.vertex_color[0] = settings->value("vertex_color_red", 0.0).toFloat();
-  settings_data.vertex_color[1] = settings->value("vertex_color_green", 255.0).toFloat();
-  settings_data.vertex_color[2] = settings->value("vertex_color_blue", 0.0).toFloat();
-  settings_data.vertex_color[3] = settings->value("vertex_color_alpha", 1.0).toFloat();
-  settings_data.edge_width = settings->value("edge_width", 10).toInt();
-  settings_data.vertex_width = settings->value("vertex_width", 10).toInt();
-  settings_data.state_fill = settings->value("facet_type", false).toBool();
-}
 
 void options::putTheValues() {
     // Вписываем в окно подгруженные настройки
@@ -106,7 +61,7 @@ void options::putTheValues() {
 }
 
 void options::on_button_apply_clicked() {
-  saveSettings();
+  settings_data.SaveSettings();
   QWidget::close();
 }
 

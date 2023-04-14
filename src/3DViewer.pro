@@ -16,7 +16,8 @@ SOURCES += \
     Facade/NormalizationParameters/normalization.cc \
     Facade/Singleton/singleton.cc \
     main.cc \
-    SettingsClass/options.cc
+    SettingsClass/options.cc \
+    SettingsClass/options_t.cc
 
 HEADERS += \
     QClass/controller.h \
