@@ -53,12 +53,12 @@ void QOpenGLWidgetOverride::paintGL() {
     if (settings.vertex_type == 1) {
       glEnable(GL_POINT_SMOOTH);
       glColor3d(settings.vertex_color[0], settings.vertex_color[1], settings.vertex_color[2]);
-      glDrawArrays(GL_POINTS, 0, size_models.first - 1);
+      glDrawArrays(GL_POINTS, 0, size_models.first / 3);
       glPointSize(settings.vertex_width);  // толщина вершины
       glDisable(GL_POINT_SMOOTH);
     } else {
       glColor3d(settings.vertex_color[0], settings.vertex_color[1], settings.vertex_color[2]);
-      glDrawArrays(GL_POINTS, 0, size_models.first - 1);
+      glDrawArrays(GL_POINTS, 0, size_models.first / 3);
       glPointSize(settings.vertex_width);  // толщина вершины
     }
   }
