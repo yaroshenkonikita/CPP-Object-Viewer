@@ -12,3 +12,11 @@ void ObjectModel::clear() {
     model.facets.clear();
     model.vertexes.clear();
 }
+
+const std::vector<double>& ObjectModel::GetVertexes() {
+    return model.vertexes;
+}
+
+const std::vector<std::vector<unsigned>>& ObjectModel::GetFacets() {
+    return model.facets;
+}

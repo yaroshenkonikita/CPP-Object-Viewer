@@ -32,13 +32,17 @@ public:
     void clear();
     std::pair<std::size_t, std::size_t> size();
 
-    PartObject model{};
+    const std::vector<double>& GetVertexes();
+    const std::vector<std::vector<unsigned>>& GetFacets();
+
 
 protected:
     static ObjectModel *instance;
 
     ObjectModel() = default;
     ~ObjectModel();
+
+    PartObject model{};
 
     void ParsingFacet(std::vector<PartObject>&, std::string&, std::size_t&);
     void ParsingVertex(std::vector<PartObject>&, std::string&, std::size_t&);

@@ -30,7 +30,7 @@ void QOpenGLWidgetOverride::paintGL() {
     glLoadIdentity();
   }
   glEnableClientState(GL_VERTEX_ARRAY);
-  glVertexPointer(3, GL_DOUBLE, 0, object.model.vertexes.data());
+  glVertexPointer(3, GL_DOUBLE, 0, object.GetVertexes().data());
   glClearColor(settings.background_color[0], settings.background_color[1], settings.background_color[2],
                settings.background_color[3]);  // цвет заднего фона
 
@@ -39,7 +39,7 @@ void QOpenGLWidgetOverride::paintGL() {
   if (settings.state_fill) {
       gl_state_poligons = GL_POLYGON;
   }
-  for (auto &facet : object.model.facets) {
+  for (auto &facet : object.GetFacets()) {
       glDrawElements(gl_state_poligons, facet.size(), GL_UNSIGNED_INT, facet.data());
   }
   glLineWidth(settings.edge_width);  // толщина ребра
