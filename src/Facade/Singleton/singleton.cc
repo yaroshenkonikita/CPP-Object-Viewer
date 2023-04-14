@@ -1,4 +1,4 @@
-#include "../object_model.h"
+#include "../Mediator/object_model.h"
 
 ObjectModel* ObjectModel::instance = nullptr;
 

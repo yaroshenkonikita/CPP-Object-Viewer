@@ -1,4 +1,4 @@
-#include "../object_model.h"
+#include "../Mediator/object_model.h"
 
 void ObjectModel::Rotate(double angle, ObjectModel::Axis axis) {
     std::size_t index{};

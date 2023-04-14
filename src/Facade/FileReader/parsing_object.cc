@@ -1,4 +1,4 @@
-#include "../object_model.h"
+#include "../Mediator/object_model.h"
 
 void ObjectModel::ParsingVertex(std::vector<PartObject> &models, std::string & line, std::size_t &position_old_vertexes) {
     if (models.back().facets.size()) {

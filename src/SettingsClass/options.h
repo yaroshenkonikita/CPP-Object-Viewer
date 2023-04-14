@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QColorDialog>
 #include <QSettings>
-#include "../Facade/object_model.h"
+#include "../Facade/Mediator/object_model.h"
 #include "options_t.h"
 
 namespace Ui {

@@ -1,4 +1,4 @@
-#include "../object_model.h"
+#include "../Mediator/object_model.h"
 
 void ObjectModel::RelocateOnStartPosition() {
     if (empty()) {

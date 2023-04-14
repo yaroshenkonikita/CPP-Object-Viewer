@@ -7,7 +7,7 @@
 #include <QWheelEvent>
 #include <QOpenGLWidget>
 #include <cmath>
-#include "../Facade/object_model.h"
+#include "../Facade/Mediator/object_model.h"
 #include "../SettingsClass/options_t.h"
 
 

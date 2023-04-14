@@ -21,7 +21,8 @@ SOURCES += \
 HEADERS += \
     QClass/controller.h \
     QClass/gl_override.h \
-    Facade/object_model.h \
+    Facade/Mediator/object_model.h \
+    Facade/part_object.h \
     SettingsClass/options.h \
     SettingsClass/options_t.h
 

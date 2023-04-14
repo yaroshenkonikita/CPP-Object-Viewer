@@ -4,18 +4,15 @@
 #include <stdexcept>
 #include <string>
 #include <fstream>
-#include <vector>
 #include <cmath>
 #include <utility>
 #include <cstring>
 #include <float.h>
 
+#include "../part_object.h"
+
 class ObjectModel {
 public:
-    struct PartObject {
-        std::vector<std::vector<unsigned>> facets{};
-        std::vector<double> vertexes{};
-    };
     
     typedef enum Axis { xAxis, yAxis, zAxis} AxisPoints;
 
