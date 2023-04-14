@@ -102,6 +102,10 @@ void MainWindow::on_button_scaling_clicked() {
 }
 
 void MainWindow::on_button_reset_position_clicked() {
-  ObjectModel::GetInstance()->RelocateOnStartPosition();
+  try {
+    ObjectModel::GetInstance()->RelocateOnStartPosition();
+  } catch (std::exception &e) {
+    QMessageBox::warning(this, "Error", e.what());
+  }
   ui->widget->update();
 }
