@@ -8,8 +8,8 @@
 #include <QWheelEvent>
 #include <QOpenGLWidget>
 #include <cmath>
-#include "../Facade/Mediator/object_model.h"
-#include "../SettingsClass/options_t.h"
+#include "../../Facade/Mediator/object_model.h"
+#include "../../SettingsClass/options_t.h"
 
 class QOpenGLWidgetOverride : public QOpenGLWidget {
   Q_OBJECT
