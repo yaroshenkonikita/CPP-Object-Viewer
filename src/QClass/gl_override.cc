@@ -78,9 +78,9 @@ void QOpenGLWidgetOverride::mouseMoveEvent(QMouseEvent* mouse) {
 
 void QOpenGLWidgetOverride::wheelEvent(QWheelEvent* event) {
   if (event->angleDelta().y() > 0) {
-    object.Scale(97);
-  } else {
     object.Scale(103);
+  } else {
+    object.Scale(97);
   }
   update();
 }
