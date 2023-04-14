@@ -32,10 +32,10 @@ ifeq ($(OS), Darwin)
 else
 	@mv $(BUILD)/$(PROJECT_NAME) ./$(APP)/$(PROJECT_NAME).app
 endif
-	@echo "Done.\n"
+	@echo "Done."
 	@echo "Deleting build folder..."
 	@rm -rf $(BUILD)
-	@echo "Done.\n"
+	@echo "Done."
 	@echo "Installation complete!"
 	@make open_app
 
