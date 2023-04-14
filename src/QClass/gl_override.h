@@ -13,14 +13,13 @@
 
 #define GL_SILENCE_DEPRECATION
 
-class GLController : public QOpenGLWidget {
+class QOpenGLWidgetOverride : public QOpenGLWidget {
   Q_OBJECT
  public:
-  QPoint mPos;
+  QPoint mPos{};
   ObjectModel &object = *ObjectModel::GetInstance();
-  int scaleVal = 1;
-  int prev_scale = 1;
-  GLController(QWidget *parent = nullptr);
+
+  QOpenGLWidgetOverride(QWidget *parent = nullptr);
 
   void initializeGL() override;
   void paintGL() override;

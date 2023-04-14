@@ -1,16 +1,16 @@
-#include "gl_controller.h"
+#include "gl_override.h"
 
 #define GL_SILENCE_DEPRECATION
 
-GLController ::GLController(QWidget* parent) : QOpenGLWidget{parent} {}
+QOpenGLWidgetOverride::QOpenGLWidgetOverride(QWidget* parent) : QOpenGLWidget{parent} {}
 
-void GLController ::initializeGL() {
+void QOpenGLWidgetOverride::initializeGL() {
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_COLOR_MATERIAL);
   glEnable(GL_LINE_STIPPLE);
 }
 
-void GLController ::paintGL() {
+void QOpenGLWidgetOverride::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     double width_widget = this->width(), height_widget = this->height();
     if (width_widget > height_widget)
@@ -30,8 +30,7 @@ void GLController ::paintGL() {
     glLoadIdentity();
   }
   glEnableClientState(GL_VERTEX_ARRAY);
-  ObjectModel &model_data = *ObjectModel::GetInstance();
-  glVertexPointer(3, GL_DOUBLE, 0, model_data.model.vertexes.data());
+  glVertexPointer(3, GL_DOUBLE, 0, object.model.vertexes.data());
   glClearColor(settings.background_color[0], settings.background_color[1], settings.background_color[2],
                settings.background_color[3]);  // цвет заднего фона
 
@@ -40,7 +39,7 @@ void GLController ::paintGL() {
   if (settings.state_fill) {
       gl_state_poligons = GL_POLYGON;
   }
-  for (auto &facet : model_data.model.facets) {
+  for (auto &facet : object.model.facets) {
       glDrawElements(gl_state_poligons, facet.size(), GL_UNSIGNED_INT, facet.data());
   }
   glLineWidth(settings.edge_width);  // толщина ребра
@@ -50,7 +49,7 @@ void GLController ::paintGL() {
     glLineStipple(4, 0xFFFF);
   }
   if (settings.vertex_type) {  // тип вершины
-      auto size_models = ObjectModel::GetInstance()->size();
+      auto size_models = object.size();
     if (settings.vertex_type == 1) {
       glEnable(GL_POINT_SMOOTH);
       glColor3d(settings.vertex_color[0], settings.vertex_color[1], settings.vertex_color[2]);
@@ -66,22 +65,22 @@ void GLController ::paintGL() {
   glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void GLController::mousePressEvent(QMouseEvent* mouse) { mPos = mouse->pos(); }
+void QOpenGLWidgetOverride::mousePressEvent(QMouseEvent* mouse) { mPos = mouse->pos(); }
 
-void GLController::mouseMoveEvent(QMouseEvent* mouse) {
+void QOpenGLWidgetOverride::mouseMoveEvent(QMouseEvent* mouse) {
   double val_x = 0.01 / M_PI * (mouse->pos().y() - mPos.y());
-  ObjectModel::GetInstance()->Rotate(val_x, ObjectModel::xAxis);
+  object.Rotate(-val_x, ObjectModel::xAxis);
   double val_y = 0.01 / M_PI * (mouse->pos().x() - mPos.x());
-  ObjectModel::GetInstance()->Rotate(val_y, ObjectModel::yAxis);
+  object.Rotate(-val_y, ObjectModel::yAxis);
   mPos = mouse->pos();
   update();
 }
 
-void GLController::wheelEvent(QWheelEvent* event) {
+void QOpenGLWidgetOverride::wheelEvent(QWheelEvent* event) {
   if (event->angleDelta().y() > 0) {
-    ObjectModel::GetInstance()->Scale(97);
+    object.Scale(97);
   } else {
-    ObjectModel::GetInstance()->Scale(103);
+    object.Scale(103);
   }
   update();
 }

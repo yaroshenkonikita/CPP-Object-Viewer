@@ -9,7 +9,7 @@ CONFIG += c++17
 
 SOURCES += \
     QClass/controller.cc \
-    QClass/gl_controller.cc \
+    QClass/gl_override.cc \
     Facade/Affine/affine_object.cc \
     Facade/Container/container_object.cc \
     Facade/FileReader/parsing_object.cc \
@@ -20,7 +20,7 @@ SOURCES += \
 
 HEADERS += \
     QClass/controller.h \
-    QClass/gl_controller.h \
+    QClass/gl_override.h \
     Facade/object_model.h \
     SettingsClass/options.h \
     SettingsClass/options_t.h
