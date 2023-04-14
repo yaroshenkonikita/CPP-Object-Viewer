@@ -1013,7 +1013,7 @@ EGifBufferedOutput(GifFileType *GifFile,
     if (c == FLUSH_OUTPUT) {
         /* Flush everything out. */
         if (Buf[0] != 0
-            && InternalWrite(GifFile, Buf, Buf[0] + 1) != (unsigned)(Buf[0] + 1)) {
+            && InternalWrite(GifFile, Buf, Buf[0] + 1) != (Buf[0] + 1)) {
             GifFile->Error = E_GIF_ERR_WRITE_FAILED;
             return GIF_ERROR;
         }
@@ -1026,7 +1026,7 @@ EGifBufferedOutput(GifFileType *GifFile,
     } else {
         if (Buf[0] == 255) {
             /* Dump out this buffer - it is full: */
-            if (InternalWrite(GifFile, Buf, Buf[0] + 1) != (unsigned)(Buf[0] + 1)) {
+            if (InternalWrite(GifFile, Buf, Buf[0] + 1) != (Buf[0] + 1)) {
                 GifFile->Error = E_GIF_ERR_WRITE_FAILED;
                 return GIF_ERROR;
             }
