@@ -1,4 +1,5 @@
 #include "controller.h"
+
 #include "ui_view.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -20,24 +21,24 @@ void MainWindow::on_actionClose_triggered() { close(); }
 
 void MainWindow::on_button_open_path_clicked() {
   QString path = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
-                                            tr("Objects Files (*.obj)"));
+                                              tr("Objects Files (*.obj)"));
 
   if (path.isEmpty()) {
-      return;
+    return;
   }
   ui->label_path->setText(path);
   ObjectModel &model_data = *ObjectModel::GetInstance();
   model_data.clear();
 
   try {
-      model_data.OpenObject(path.toStdString());
+    model_data.OpenObject(path.toStdString());
   } catch (std::exception &e) {
-      QMessageBox::warning(this, "Error",
-                                 e.what());
+    QMessageBox::warning(this, "Error", e.what());
   }
   auto size_models = model_data.size();
   ui->label_edges->setText("Facets : " + QString::number(size_models.second));
-  ui->label_vertexes->setText("Vertexes : " + QString::number(size_models.first / 3));
+  ui->label_vertexes->setText("Vertexes : " +
+                              QString::number(size_models.first / 3));
   ui->widget->update();
 }
 
@@ -82,29 +83,25 @@ void MainWindow::on_button_setting_clicked() {
 }
 
 void MainWindow::on_button_moving_clicked() {
-    ObjectModel::GetInstance()->Move(ui->moving_x->value(), ObjectModel::xAxis);
-    ObjectModel::GetInstance()->Move(ui->moving_y->value(), ObjectModel::yAxis);
-    ObjectModel::GetInstance()->Move(ui->moving_z->value(), ObjectModel::zAxis);
-    ui->widget->update();
+  ObjectModel::GetInstance()->Move(ui->moving_x->value(), ObjectModel::xAxis);
+  ObjectModel::GetInstance()->Move(ui->moving_y->value(), ObjectModel::yAxis);
+  ObjectModel::GetInstance()->Move(ui->moving_z->value(), ObjectModel::zAxis);
+  ui->widget->update();
 }
-
 
 void MainWindow::on_button_rotate_clicked() {
-    ObjectModel::GetInstance()->Rotate(ui->rotate_x->value(), ObjectModel::xAxis);
-    ObjectModel::GetInstance()->Rotate(ui->rotate_y->value(), ObjectModel::yAxis);
-    ObjectModel::GetInstance()->Rotate(ui->rotate_z->value(), ObjectModel::zAxis);
-    ui->widget->update();
+  ObjectModel::GetInstance()->Rotate(ui->rotate_x->value(), ObjectModel::xAxis);
+  ObjectModel::GetInstance()->Rotate(ui->rotate_y->value(), ObjectModel::yAxis);
+  ObjectModel::GetInstance()->Rotate(ui->rotate_z->value(), ObjectModel::zAxis);
+  ui->widget->update();
 }
-
 
 void MainWindow::on_button_scaling_clicked() {
-    ObjectModel::GetInstance()->Scale(ui->scaling->value());
-    ui->widget->update();
+  ObjectModel::GetInstance()->Scale(ui->scaling->value());
+  ui->widget->update();
 }
-
 
 void MainWindow::on_button_reset_position_clicked() {
-    ObjectModel::GetInstance()->RelocateOnStartPosition();
-    ui->widget->update();
+  ObjectModel::GetInstance()->RelocateOnStartPosition();
+  ui->widget->update();
 }
-

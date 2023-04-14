@@ -5,9 +5,10 @@
 #include <QColorDialog>
 #include <QMouseEvent>
 #include <QOpenGLFunctions>
-#include <QWheelEvent>
 #include <QOpenGLWidget>
+#include <QWheelEvent>
 #include <cmath>
+
 #include "../../Facade/Mediator/object_model.h"
 #include "../../SettingsClass/options_t.h"
 

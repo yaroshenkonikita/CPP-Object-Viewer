@@ -1,8 +1,9 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include <QDialog>
 #include <QColorDialog>
+#include <QDialog>
+
 #include "../Facade/Mediator/object_model.h"
 #include "options_t.h"
 
@@ -44,9 +45,9 @@ class options : public QDialog {
 
   void on_polygon_facets_clicked();
 
-private:
+ private:
   Ui::options *ui;
-    Options_t settings_data;
+  Options_t settings_data;
 };
 
 #endif  // OPTIONS_H

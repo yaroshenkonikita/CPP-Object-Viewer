@@ -2,14 +2,14 @@
 #define CONTROLLER_H
 
 #include <QFileDialog>
-#include <QMessageBox>
 #include <QMainWindow>
+#include <QMessageBox>
+#include <QSettings>
 #include <QTimer>
 #include <cstring>
 
-#include <QSettings>
-#include "QtGifImage/gifimage/qgifimage.h"
 #include "../SettingsClass/options.h"
+#include "QtGifImage/gifimage/qgifimage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

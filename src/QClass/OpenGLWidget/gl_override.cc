@@ -2,7 +2,8 @@
 
 #define GL_SILENCE_DEPRECATION
 
-QOpenGLWidgetOverride::QOpenGLWidgetOverride(QWidget* parent) : QOpenGLWidget{parent} {}
+QOpenGLWidgetOverride::QOpenGLWidgetOverride(QWidget* parent)
+    : QOpenGLWidget{parent} {}
 
 void QOpenGLWidgetOverride::initializeGL() {
   glEnable(GL_DEPTH_TEST);
@@ -11,12 +12,14 @@ void QOpenGLWidgetOverride::initializeGL() {
 }
 
 void QOpenGLWidgetOverride::paintGL() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    double width_widget = this->width(), height_widget = this->height();
-    if (width_widget > height_widget)
-        glOrtho(-2.0 * (width_widget/height_widget), 2.0 * (width_widget/height_widget), -2.0, 2.0, -5, 5);
-    else
-        glOrtho(-2.0, 2.0, -2.0 * (height_widget/width_widget), 2.0 * (height_widget/width_widget), -5, 5);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  double width_widget = this->width(), height_widget = this->height();
+  if (width_widget > height_widget)
+    glOrtho(-2.0 * (width_widget / height_widget),
+            2.0 * (width_widget / height_widget), -2.0, 2.0, -5, 5);
+  else
+    glOrtho(-2.0, 2.0, -2.0 * (height_widget / width_widget),
+            2.0 * (height_widget / width_widget), -5, 5);
   //Блок отвечает за проекцию
   if (settings.projection_type) {
     glMatrixMode(GL_PROJECTION);
@@ -31,16 +34,19 @@ void QOpenGLWidgetOverride::paintGL() {
   }
   glEnableClientState(GL_VERTEX_ARRAY);
   glVertexPointer(3, GL_DOUBLE, 0, object.GetVertexes().data());
-  glClearColor(settings.background_color[0], settings.background_color[1], settings.background_color[2],
+  glClearColor(settings.background_color[0], settings.background_color[1],
+               settings.background_color[2],
                settings.background_color[3]);  // цвет заднего фона
 
-  glColor3d(settings.edge_color[0], settings.edge_color[1], settings.edge_color[2]);
+  glColor3d(settings.edge_color[0], settings.edge_color[1],
+            settings.edge_color[2]);
   auto gl_state_poligons = GL_LINE_LOOP;
   if (settings.state_fill) {
-      gl_state_poligons = GL_POLYGON;
+    gl_state_poligons = GL_POLYGON;
   }
-  for (auto &facet : object.GetFacets()) {
-      glDrawElements(gl_state_poligons, facet.size(), GL_UNSIGNED_INT, facet.data());
+  for (auto& facet : object.GetFacets()) {
+    glDrawElements(gl_state_poligons, facet.size(), GL_UNSIGNED_INT,
+                   facet.data());
   }
   glLineWidth(settings.edge_width);  // толщина ребра
   if (settings.edge_type) {          //тип ребра
@@ -49,15 +55,17 @@ void QOpenGLWidgetOverride::paintGL() {
     glLineStipple(4, 0xFFFF);
   }
   if (settings.vertex_type) {  // тип вершины
-      auto size_models = object.size();
+    auto size_models = object.size();
     if (settings.vertex_type == 1) {
       glEnable(GL_POINT_SMOOTH);
-      glColor3d(settings.vertex_color[0], settings.vertex_color[1], settings.vertex_color[2]);
+      glColor3d(settings.vertex_color[0], settings.vertex_color[1],
+                settings.vertex_color[2]);
       glDrawArrays(GL_POINTS, 0, size_models.first / 3);
       glPointSize(settings.vertex_width);  // толщина вершины
       glDisable(GL_POINT_SMOOTH);
     } else {
-      glColor3d(settings.vertex_color[0], settings.vertex_color[1], settings.vertex_color[2]);
+      glColor3d(settings.vertex_color[0], settings.vertex_color[1],
+                settings.vertex_color[2]);
       glDrawArrays(GL_POINTS, 0, size_models.first / 3);
       glPointSize(settings.vertex_width);  // толщина вершины
     }
@@ -65,7 +73,9 @@ void QOpenGLWidgetOverride::paintGL() {
   glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void QOpenGLWidgetOverride::mousePressEvent(QMouseEvent* mouse) { mPos = mouse->pos(); }
+void QOpenGLWidgetOverride::mousePressEvent(QMouseEvent* mouse) {
+  mPos = mouse->pos();
+}
 
 void QOpenGLWidgetOverride::mouseMoveEvent(QMouseEvent* mouse) {
   double val_x = 0.01 / M_PI * (mouse->pos().y() - mPos.y());
