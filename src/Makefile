@@ -1,4 +1,5 @@
-.PHONY: all install uninstall clean dvi dist test gcov_report generate_make
+.PHONY: all install uninstall clean dvi dist test gcov_report generate_make rebuild open_app
+
 # =========================================== VAR ==================================================
 
 CXX = g++
@@ -12,11 +13,12 @@ DOCUMENTATION = ../documentation
 DIST = ../dist
 QT_MAKEFILE = MakeBuild
 
-
 # =========================================== OS ===================================================
 
 
 # ========================================= TARGETS ================================================
+
+all: install
 
 generate_make:
 	@qmake $(QT_PRO) -o $(BUILD)/$(QT_MAKEFILE)
@@ -32,16 +34,19 @@ ifeq ($(OS), Darwin)
 else
 	@mv $(BUILD)/$(PROJECT_NAME) ./$(APP)/$(PROJECT_NAME).app
 endif
-	@echo "Done."
+	@echo "Done.\n"
 	@echo "Deleting build folder..."
 	@rm -rf $(BUILD)
-	@echo "Done."
+	@echo "Done.\n"
 	@echo "Installation complete!"
 	@make open_app
 
 open_app:
+ifeq ($(OS), Darwin)
 	@open $(APP)/$(PROJECT_NAME).app
-
+else
+	@./$(APP)/$(PROJECT_NAME).app
+endif
 
 uninstall:
 	@echo "Uninstalling start..."
@@ -50,11 +55,16 @@ uninstall:
 
 dist: clean
 	@mkdir -p $(DIST)
-	tar -cvzf $(DIST)/source_code.tar.gz .
-
+	@tar -cvzf $(DIST)/source_code.tar.gz .
+	@echo "The archive was successfully created on the path '../dist'"
 
 dvi:
-	doxygen Doxyfile
+	@doxygen Doxyfile
+ifeq ($(OS), Darwin)
+	@open ../documentation/html/index.html
+else
+	@xdg-open ../documentation/html/index.html
+endif	
 
 clean:
 	@echo "Cleaning..."
