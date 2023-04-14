@@ -79,6 +79,7 @@ void MainWindow::on_button_setting_clicked() {
   options_form.exec();
   ui->widget->settings.LoadSettings();
   ui->widget->update();
+  ui->widget->showFullScreen();
 }
 
 void MainWindow::on_button_moving_clicked() {
@@ -104,7 +105,12 @@ void MainWindow::on_button_scaling_clicked() {
 
 
 void MainWindow::on_button_reset_position_clicked() {
-    ObjectModel::GetInstance()->RelocateOnStartPosition();
+    try {
+        ObjectModel::GetInstance()->RelocateOnStartPosition();
+    } catch (std::exception &e) {
+        QMessageBox::warning(this, "Error",
+                                   e.what());
+    }
     ui->widget->update();
 }
 
