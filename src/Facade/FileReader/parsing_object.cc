@@ -4,9 +4,9 @@ void ObjectModel::ParsingVertex(std::vector<PartObject> &models,
                                 std::string &line,
                                 std::size_t &position_old_vertexes) {
   if (models.back().facets.size()) {
-    position_old_vertexes += (models.back().vertexes.size() / 3);
     models.push_back(PartObject());
   }
+  position_old_vertexes += 1;
   int count_vertex{};
     char *token = std::strtok(line.data() + 1, " ");
     while (token) {
@@ -28,9 +28,12 @@ void ObjectModel::ParsingFacet(std::vector<PartObject> &models,
   char *token = std::strtok(line.data() + 1, " ");
   std::vector<unsigned> face{};
   while (token) {
-    long tmp = std::stoll(token);
+      if (*token == '\r') {
+          break;
+      }
+    int tmp = std::stoi(token);
     if (tmp < 0) {
-      face.push_back(std::abs(tmp) - 1 + position_old_vertexes);
+      face.push_back(position_old_vertexes - std::abs(tmp));
     } else {
       face.push_back(tmp - 1);
     }
