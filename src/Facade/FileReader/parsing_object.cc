@@ -33,7 +33,7 @@ void ObjectModel::ParsingFacet(std::vector<PartObject> &models,
       }
     int tmp = std::stoi(token);
     if (tmp < 0) {
-      face.push_back(position_old_vertexes - std::abs(tmp));
+      face.push_back(position_old_vertexes + tmp);
     } else {
       face.push_back(tmp - 1);
     }
