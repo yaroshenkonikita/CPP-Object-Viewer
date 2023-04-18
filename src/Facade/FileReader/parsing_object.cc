@@ -4,19 +4,16 @@ void ObjectModel::ParsingVertex(std::vector<PartObject> &models,
                                 std::string &line,
                                 std::size_t &position_old_vertexes) {
   if (models.back().facets.size()) {
-    position_old_vertexes += models.back().vertexes.size() / 3;
-    models.emplace_back();
+    position_old_vertexes += (models.back().vertexes.size() / 3);
+    models.push_back(PartObject());
   }
   int count_vertex{};
-  for (unsigned i{}; i < line.length(); ++i) {
-    if (std::isdigit(line[i]) || line[i] == '-') {
-      std::size_t index_stod{};
-      models.back().vertexes.push_back(
-          std::stod(line.c_str() + i, &index_stod));
-      i += index_stod;
-      ++count_vertex;
+    char *token = std::strtok(line.data() + 1, " ");
+    while (token) {
+        ++count_vertex;
+        models.back().vertexes.push_back(std::stod(token));
+        token = strtok(nullptr, " ");
     }
-  }
   if (count_vertex != 3) {
     throw std::invalid_argument("Invalid file .obj");
   }
@@ -31,7 +28,7 @@ void ObjectModel::ParsingFacet(std::vector<PartObject> &models,
   char *token = std::strtok(line.data() + 1, " ");
   std::vector<unsigned> face{};
   while (token) {
-    long tmp = std::stol(token);
+    long tmp = std::stoll(token);
     if (tmp < 0) {
       face.push_back(std::abs(tmp) - 1 + position_old_vertexes);
     } else {
