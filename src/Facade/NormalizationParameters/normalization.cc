@@ -30,4 +30,5 @@ void ObjectModel::RelocateOnStartPosition() {
   MoveReal(-(positionAxis[zAxis] + deltaAxis[zAxis] / 2), zAxis);
   Scale(100 / std::max(std::max(deltaAxis[xAxis], deltaAxis[yAxis]),
                        deltaAxis[zAxis]));
+  move_coordinate[xAxis] = move_coordinate[yAxis] = move_coordinate[zAxis] = 0;
 }
