@@ -31,7 +31,7 @@ class ObjectModel {
   void clear();
   std::pair<std::size_t, std::size_t> size();
 
-  std::vector<double>& GetVertexes();
+  std::vector<double>& GetVertexes(double, double);
   const std::vector<std::vector<unsigned>>& GetFacets();
 
  protected:
