@@ -42,7 +42,7 @@ void ObjectModel::MoveReal(double coordinate, ObjectModel::AxisPoints axis) {
 }
 
 void ObjectModel::Move(double coordinate, ObjectModel::AxisPoints axis) {
-    move_coordinate[axis] += coordinate;
+  move_coordinate[axis] += coordinate;
 }
 
 void ObjectModel::Scale(double coordinate) {

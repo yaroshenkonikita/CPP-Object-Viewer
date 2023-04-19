@@ -13,14 +13,7 @@ void QOpenGLWidgetOverride::initializeGL() {
 
 void QOpenGLWidgetOverride::paintGL() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//  double width_widget = this->width(), height_widget = this->height();
-//  if (width_widget > height_widget)
-//    glOrtho(-2.0 * (width_widget / height_widget),
-//            2.0 * (width_widget / height_widget), -2.0, 2.0, -5, 5);
-//  else
-//    glOrtho(-2.0, 2.0, -2.0 * (height_widget / width_widget),
-//            2.0 * (height_widget / width_widget), -5, 5);
-    glOrtho(-2.0, 2.0, -2.0, 2.0, -5, 5);
+  glOrtho(-2.0, 2.0, -2.0, 2.0, -5, 5);
   //Блок отвечает за проекцию
   if (settings.projection_type) {
     glMatrixMode(GL_PROJECTION);
@@ -34,7 +27,8 @@ void QOpenGLWidgetOverride::paintGL() {
     glLoadIdentity();
   }
   glEnableClientState(GL_VERTEX_ARRAY);
-  glVertexPointer(3, GL_DOUBLE, 0, object.GetVertexes(this->width(), this->height()).data());
+  glVertexPointer(3, GL_DOUBLE, 0,
+                  object.GetVertexes(this->width(), this->height()).data());
   glClearColor(settings.background_color[0], settings.background_color[1],
                settings.background_color[2],
                settings.background_color[3]);  // цвет заднего фона
