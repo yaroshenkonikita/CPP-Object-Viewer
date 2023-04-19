@@ -25,9 +25,9 @@ void ObjectModel::RelocateOnStartPosition() {
   double deltaAxis[3] = {positionAxis[xAxis + 3] - positionAxis[xAxis],
                          positionAxis[yAxis + 3] - positionAxis[yAxis],
                          positionAxis[zAxis + 3] - positionAxis[zAxis]};
-  Move(-(positionAxis[xAxis] + deltaAxis[xAxis] / 2), xAxis);
-  Move(-(positionAxis[yAxis] + deltaAxis[yAxis] / 2), yAxis);
-  Move(-(positionAxis[zAxis] + deltaAxis[zAxis] / 2), zAxis);
+  MoveReal(-(positionAxis[xAxis] + deltaAxis[xAxis] / 2), xAxis);
+  MoveReal(-(positionAxis[yAxis] + deltaAxis[yAxis] / 2), yAxis);
+  MoveReal(-(positionAxis[zAxis] + deltaAxis[zAxis] / 2), zAxis);
   Scale(100 / std::max(std::max(deltaAxis[xAxis], deltaAxis[yAxis]),
                        deltaAxis[zAxis]));
 }

@@ -31,7 +31,7 @@ class ObjectModel {
   void clear();
   std::pair<std::size_t, std::size_t> size();
 
-  const std::vector<double>& GetVertexes();
+  std::vector<double> GetVertexes();
   const std::vector<std::vector<unsigned>>& GetFacets();
 
  protected:
@@ -41,9 +41,11 @@ class ObjectModel {
   ~ObjectModel();
 
   PartObject model{};
+  double move_coordinate[3]{};
 
   void ParsingFacet(std::vector<PartObject>&, std::string&, std::size_t&);
   void ParsingVertex(std::vector<PartObject>&, std::string&);
+  void MoveReal(double, AxisPoints);
 };
 
 }  // namespace s21

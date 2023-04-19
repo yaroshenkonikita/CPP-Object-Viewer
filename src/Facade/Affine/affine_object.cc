@@ -35,10 +35,14 @@ void ObjectModel::Rotate(double angle, ObjectModel::Axis axis) {
   }
 }
 
-void ObjectModel::Move(double coordinate, ObjectModel::AxisPoints axis) {
+void ObjectModel::MoveReal(double coordinate, ObjectModel::AxisPoints axis) {
   for (std::size_t index = axis; index < model.vertexes.size(); index += 3) {
     model.vertexes[index] += coordinate;
   }
+}
+
+void ObjectModel::Move(double coordinate, ObjectModel::AxisPoints axis) {
+    move_coordinate[axis] += coordinate;
 }
 
 void ObjectModel::Scale(double coordinate) {

@@ -15,7 +15,15 @@ void ObjectModel::clear() {
   model.vertexes.clear();
 }
 
-const std::vector<double>& ObjectModel::GetVertexes() { return model.vertexes; }
+std::vector<double> ObjectModel::GetVertexes() {
+    std::vector<double> prepare_data{model.vertexes};
+    for (std::size_t index = 0; index < prepare_data.size(); index += 3) {
+        prepare_data[index + xAxis] += move_coordinate[xAxis];
+        prepare_data[index + yAxis] += move_coordinate[yAxis];
+        prepare_data[index + zAxis] += move_coordinate[zAxis];
+    }
+    return prepare_data;
+}
 
 const std::vector<std::vector<unsigned>>& ObjectModel::GetFacets() {
   return model.facets;
