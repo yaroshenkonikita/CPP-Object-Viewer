@@ -78,10 +78,10 @@ void QOpenGLWidgetOverride::mousePressEvent(QMouseEvent* mouse) {
 }
 
 void QOpenGLWidgetOverride::mouseMoveEvent(QMouseEvent* mouse) {
-  double val_x = 0.01 / M_PI * (mouse->pos().y() - mPos.y());
-  object.Rotate(-val_x, s21::ObjectModel::xAxis);
-  double val_y = 0.01 / M_PI * (mouse->pos().x() - mPos.x());
-  object.Rotate(-val_y, s21::ObjectModel::yAxis);
+  double val_x = 0.013 / M_PI * (mouse->pos().y() - mPos.y());
+  object.Rotate(val_x, s21::ObjectModel::xAxis);
+  double val_y = 0.013 / M_PI * (mouse->pos().x() - mPos.x());
+  object.Rotate(val_y, s21::ObjectModel::yAxis);
   mPos = mouse->pos();
   update();
 }
