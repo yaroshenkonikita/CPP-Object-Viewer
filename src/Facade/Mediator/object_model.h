@@ -31,7 +31,7 @@ class ObjectModel {
   void clear();
   std::pair<std::size_t, std::size_t> size();
 
-  std::vector<double> GetVertexes();
+  std::vector<double>& GetVertexes();
   const std::vector<std::vector<unsigned>>& GetFacets();
 
  protected:
@@ -41,6 +41,7 @@ class ObjectModel {
   ~ObjectModel();
 
   PartObject model{};
+  std::vector<double> prepare_data{};
   double move_coordinate[3]{};
 
   void ParsingFacet(std::vector<PartObject>&, std::string&, std::size_t&);

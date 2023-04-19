@@ -15,8 +15,9 @@ void ObjectModel::clear() {
   model.vertexes.clear();
 }
 
-std::vector<double> ObjectModel::GetVertexes() {
-    std::vector<double> prepare_data{model.vertexes};
+std::vector<double> &ObjectModel::GetVertexes() {
+    prepare_data.clear();
+    std::copy(model.vertexes.begin(), model.vertexes.end(), std::back_inserter(prepare_data));
     for (std::size_t index = 0; index < prepare_data.size(); index += 3) {
         prepare_data[index + xAxis] += move_coordinate[xAxis];
         prepare_data[index + yAxis] += move_coordinate[yAxis];
