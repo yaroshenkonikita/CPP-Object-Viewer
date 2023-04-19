@@ -1,5 +1,7 @@
 #include "../Mediator/object_model.h"
 
+using namespace s21;
+
 ObjectModel* ObjectModel::instance = nullptr;
 
 ObjectModel* ObjectModel::GetInstance() {

@@ -13,17 +13,21 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class MainWindow;
+class Controller;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
+namespace s21 {
+
+class Controller : public QMainWindow {
   Q_OBJECT
 
  public:
-  MainWindow(QWidget *parent = nullptr);
-  ~MainWindow();
-  Ui::MainWindow *ui;
+  Controller(QWidget *parent = nullptr);
+
+  ~Controller();
+
+  Ui::Controller *ui;
 
  private:
   QTimer *timer_;
@@ -31,19 +35,29 @@ class MainWindow : public QMainWindow {
 
  private slots:
   void on_actionClose_triggered();
+
   void on_button_open_path_clicked();
+
   void on_button_jpeg_clicked();
+
   void on_button_bmp_clicked();
+
   void on_button_gif_clicked();
+
   void takeFrame();
   // установка значений по нажанию на соответствующую кнопку
 
   void on_button_setting_clicked();
 
   void on_button_moving_clicked();
+
   void on_button_rotate_clicked();
+
   void on_button_scaling_clicked();
+
   void on_button_reset_position_clicked();
 };
+
+}  // namespace s21
 
 #endif  // CONTROLLER_H

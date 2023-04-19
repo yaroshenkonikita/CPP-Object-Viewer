@@ -12,6 +12,8 @@
 
 #include "../part_object.h"
 
+namespace s21 {
+
 class ObjectModel {
  public:
   typedef enum Axis { xAxis, yAxis, zAxis } AxisPoints;
@@ -41,7 +43,9 @@ class ObjectModel {
   PartObject model{};
 
   void ParsingFacet(std::vector<PartObject>&, std::string&, std::size_t&);
-  void ParsingVertex(std::vector<PartObject>&, std::string&, std::size_t&);
+  void ParsingVertex(std::vector<PartObject>&, std::string&);
 };
+
+}  // namespace s21
 
 #endif  // CPP4_3DVIEWER_V2_0_1_OBJECTMODEL_H_

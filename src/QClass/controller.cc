@@ -2,9 +2,11 @@
 
 #include "ui_view.h"
 
-MainWindow::MainWindow(QWidget *parent)
+using namespace s21;
+
+Controller::Controller(QWidget *parent)
     : QMainWindow(parent),
-      ui(new Ui::MainWindow),
+      ui(new Ui::Controller),
       timer_(new QTimer),
       gif_(nullptr) {
   ui->setupUi(this);
@@ -12,14 +14,14 @@ MainWindow::MainWindow(QWidget *parent)
   connect(timer_, SIGNAL(timeout()), this, SLOT(takeFrame()));
 }
 
-MainWindow::~MainWindow() {
+Controller::~Controller() {
   delete ui;
   delete timer_;
 }
 
-void MainWindow::on_actionClose_triggered() { close(); }
+void Controller::on_actionClose_triggered() { close(); }
 
-void MainWindow::on_button_open_path_clicked() {
+void Controller::on_button_open_path_clicked() {
   QString path = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
                                               tr("Objects Files (*.obj)"));
 
@@ -42,25 +44,25 @@ void MainWindow::on_button_open_path_clicked() {
   ui->widget->update();
 }
 
-void MainWindow::on_button_jpeg_clicked() {
+void Controller::on_button_jpeg_clicked() {
   QString file = QFileDialog::getSaveFileName(this, "Save as...", "name.jpeg",
                                               "JPEG (*.jpeg)");
   ui->widget->grabFramebuffer().save(file, NULL, 100);
 }
 
-void MainWindow::on_button_bmp_clicked() {
+void Controller::on_button_bmp_clicked() {
   QString file = QFileDialog::getSaveFileName(this, "Save as...", "name.bmp",
                                               "BMP (*.bmp)");
   ui->widget->grabFramebuffer().save(file, NULL, 100);
 }
 
-void MainWindow::on_button_gif_clicked() {
+void Controller::on_button_gif_clicked() {
   ui->button_gif->setText("Gif is recording");
   gif_ = new QGifImage;
   timer_->start(100);
 }
 
-void MainWindow::takeFrame() {
+void Controller::takeFrame() {
   if (gif_->frameCount() < 50) {
     QImage frame = ui->widget->grabFramebuffer();
     gif_->addFrame(frame.scaled(640, 480), 0);
@@ -74,7 +76,7 @@ void MainWindow::takeFrame() {
   }
 }
 
-void MainWindow::on_button_setting_clicked() {
+void Controller::on_button_setting_clicked() {
   options options_form;
   options_form.setWindowTitle("Settings");
   options_form.exec();
@@ -82,26 +84,26 @@ void MainWindow::on_button_setting_clicked() {
   ui->widget->update();
 }
 
-void MainWindow::on_button_moving_clicked() {
+void Controller::on_button_moving_clicked() {
   ObjectModel::GetInstance()->Move(ui->moving_x->value(), ObjectModel::xAxis);
   ObjectModel::GetInstance()->Move(ui->moving_y->value(), ObjectModel::yAxis);
   ObjectModel::GetInstance()->Move(ui->moving_z->value(), ObjectModel::zAxis);
   ui->widget->update();
 }
 
-void MainWindow::on_button_rotate_clicked() {
+void Controller::on_button_rotate_clicked() {
   ObjectModel::GetInstance()->Rotate(ui->rotate_x->value(), ObjectModel::xAxis);
   ObjectModel::GetInstance()->Rotate(ui->rotate_y->value(), ObjectModel::yAxis);
   ObjectModel::GetInstance()->Rotate(ui->rotate_z->value(), ObjectModel::zAxis);
   ui->widget->update();
 }
 
-void MainWindow::on_button_scaling_clicked() {
+void Controller::on_button_scaling_clicked() {
   ObjectModel::GetInstance()->Scale(ui->scaling->value());
   ui->widget->update();
 }
 
-void MainWindow::on_button_reset_position_clicked() {
+void Controller::on_button_reset_position_clicked() {
   try {
     ObjectModel::GetInstance()->RelocateOnStartPosition();
   } catch (std::exception &e) {

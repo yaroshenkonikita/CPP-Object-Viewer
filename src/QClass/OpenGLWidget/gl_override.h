@@ -16,7 +16,7 @@ class QOpenGLWidgetOverride : public QOpenGLWidget {
   Q_OBJECT
  public:
   QPoint mPos{};
-  ObjectModel &object = *ObjectModel::GetInstance();
+  s21::ObjectModel &object = *s21::ObjectModel::GetInstance();
 
   QOpenGLWidgetOverride(QWidget *parent = nullptr);
 
@@ -26,7 +26,7 @@ class QOpenGLWidgetOverride : public QOpenGLWidget {
   void mousePressEvent(QMouseEvent *) override;
   void mouseMoveEvent(QMouseEvent *) override;
   void wheelEvent(QWheelEvent *) override;
-  Options_t settings;
+  s21::Options_t settings;
 };
 
 #endif  // GL_CONTROLLER_H

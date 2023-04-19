@@ -2,6 +2,8 @@
 
 #include "ui_options.h"
 
+using namespace s21;
+
 options::options(QWidget *parent) : QDialog(parent), ui(new Ui::options) {
   settings_data.LoadSettings();
   ui->setupUi(this);

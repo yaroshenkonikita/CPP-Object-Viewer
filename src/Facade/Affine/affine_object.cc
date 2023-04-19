@@ -1,5 +1,7 @@
 #include "../Mediator/object_model.h"
 
+using namespace s21;
+
 void ObjectModel::Rotate(double angle, ObjectModel::Axis axis) {
   std::size_t index{};
   double tmp_first{}, tmp_second{};

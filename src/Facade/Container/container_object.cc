@@ -1,5 +1,7 @@
 #include "../Mediator/object_model.h"
 
+using namespace s21;
+
 std::pair<std::size_t, std::size_t> ObjectModel::size() {
   return {model.vertexes.size(), model.facets.size()};
 }

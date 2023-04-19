@@ -1,5 +1,7 @@
 #include "options_t.h"
 
+using namespace s21;
+
 Options_t::Options_t() { LoadSettings(); }
 
 void Options_t::LoadSettings() {

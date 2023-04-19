@@ -1,5 +1,7 @@
 #include "../Mediator/object_model.h"
 
+using namespace s21;
+
 void ObjectModel::RelocateOnStartPosition() {
   if (empty()) {
     throw std::logic_error("Can't relocate. Haven't exist model");

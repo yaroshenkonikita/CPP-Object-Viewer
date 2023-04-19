@@ -3,6 +3,8 @@
 
 #include <QSettings>
 
+namespace s21 {
+
 struct Options_t {
   Options_t();
 
@@ -19,7 +21,10 @@ struct Options_t {
   bool state_fill{};            // Полигон или каркас
 
   void SaveSettings();
+
   void LoadSettings();
 };
+
+}  // namespace s21
 
 #endif  // CPP4_3DVIEWER_V2_0_1_OPTIONS_T_H_
