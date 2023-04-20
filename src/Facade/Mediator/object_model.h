@@ -13,43 +13,43 @@
 
 #include "../part_object.h"
 
-constexpr std::size_t multithreadingMaxSize = 4u;
+constexpr unsigned multithreadingMaxSize = 4u;
 
-    namespace s21 {
-  class ObjectModel {
-   public:
-    typedef enum Axis { xAxis, yAxis, zAxis } AxisPoints;
+namespace s21 {
+class ObjectModel {
+ public:
+  typedef enum Axis { xAxis, yAxis, zAxis } AxisPoints;
 
-    static ObjectModel* GetInstance();
+  static ObjectModel* GetInstance();
 
-    void OpenObject(std::string);
+  void OpenObject(std::string);
 
-    void Move(double, AxisPoints);
-    void Rotate(double, AxisPoints);
-    void Scale(double);
-    void RelocateOnStartPosition();
+  void Move(double, AxisPoints);
+  void Rotate(double, AxisPoints);
+  void Scale(double);
+  void RelocateOnStartPosition();
 
-    bool empty();
-    void clear();
-    std::pair<std::size_t, std::size_t> size();
+  bool empty();
+  void clear();
+  std::pair<std::size_t, std::size_t> size();
 
-    std::vector<double>& GetVertexes(double, double);
-    const std::vector<std::vector<unsigned>>& GetFacets();
+  std::vector<double>& GetVertexes(double, double);
+  const std::vector<std::vector<unsigned>>& GetFacets();
 
-   protected:
-    static ObjectModel* instance;
+ protected:
+  static ObjectModel* instance;
 
-    ObjectModel() = default;
-    ~ObjectModel();
+  ObjectModel() = default;
+  ~ObjectModel();
 
-    PartObject model{};
-    std::vector<double> prepare_data{};
-    double move_coordinate[3]{};
+  PartObject model{};
+  std::vector<double> prepare_data{};
+  double move_coordinate[3]{};
 
-    void ParsingFacet(std::vector<PartObject>&, std::string&, std::size_t&);
-    void ParsingVertex(std::vector<PartObject>&, std::string&);
-    void MoveReal(double, AxisPoints);
-  };
+  void ParsingFacet(std::vector<PartObject>&, std::string&, std::size_t&);
+  void ParsingVertex(std::vector<PartObject>&, std::string&);
+  void MoveReal(double, AxisPoints);
+};
 
 }  // namespace s21
 
