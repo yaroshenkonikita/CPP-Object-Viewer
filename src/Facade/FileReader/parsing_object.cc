@@ -37,8 +37,8 @@ void ObjectModel::ParsingFacet(std::vector<PartObject> &models,
     } else {
       face.push_back(tmp - 1);
     }
-    if (face.back() < 0 || face.back() >= position_old_vertexes) {
-        throw std::invalid_argument("Invalid file .obj");
+    if (face.back() >= position_old_vertexes) {
+      throw std::invalid_argument("Invalid file .obj");
     }
     token = strtok(nullptr, " ");
   }
