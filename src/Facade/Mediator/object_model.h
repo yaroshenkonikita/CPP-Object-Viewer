@@ -13,7 +13,7 @@
 
 #include "../part_object.h"
 
-constexpr multithreadingMaxSize 4u
+constexpr std::size_t multithreadingMaxSize = 4u;
 
     namespace s21 {
   class ObjectModel {
