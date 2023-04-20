@@ -31,7 +31,7 @@ std::vector<double>& ObjectModel::GetVertexes(double width, double height) {
             std::back_inserter(prepare_data));
 
   const std::size_t threads_max =
-      std::min(4u, std::thread::hardware_concurrency());
+      std::min(multithreadingMaxSize, std::thread::hardware_concurrency());
   std::vector<std::thread> threads(threads_max);
 
   for (std::size_t thread_num = 0; thread_num < threads_max; ++thread_num) {

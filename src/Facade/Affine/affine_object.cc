@@ -4,7 +4,7 @@ using namespace s21;
 
 void ObjectModel::Rotate(double angle, ObjectModel::Axis axis) {
   const std::size_t threads_max =
-      std::min(MULTITHREADING_MODEL_SIZE, std::thread::hardware_concurrency());
+      std::min(multithreadingMaxSize, std::thread::hardware_concurrency());
   std::vector<std::thread> threads(threads_max);
   if (axis == xAxis) {
     for (std::size_t thread_num = 0; thread_num < threads_max; ++thread_num) {
@@ -63,7 +63,7 @@ void ObjectModel::Rotate(double angle, ObjectModel::Axis axis) {
 
 void ObjectModel::MoveReal(double coordinate, ObjectModel::AxisPoints axis) {
   const std::size_t threads_max =
-      std::min(MULTITHREADING_MODEL_SIZE, std::thread::hardware_concurrency());
+      std::min(multithreadingMaxSize, std::thread::hardware_concurrency());
   std::vector<std::thread> threads(threads_max);
   for (std::size_t thread_num{}; thread_num < threads_max; ++thread_num) {
     threads[thread_num] =
@@ -86,7 +86,7 @@ void ObjectModel::Move(double coordinate, ObjectModel::AxisPoints axis) {
 void ObjectModel::Scale(double coordinate) {
   coordinate = coordinate / 100.;
   const std::size_t threads_max =
-      std::min(MULTITHREADING_MODEL_SIZE, std::thread::hardware_concurrency());
+      std::min(multithreadingMaxSize, std::thread::hardware_concurrency());
   std::vector<std::thread> threads(threads_max);
   for (std::size_t thread_num{}; thread_num < threads_max; ++thread_num) {
     threads[thread_num] =
