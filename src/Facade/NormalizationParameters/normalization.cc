@@ -3,7 +3,7 @@
 using namespace s21;
 
 void ObjectModel::RelocateOnStartPosition() {
-  if (empty()) {
+  if (model.vertexes.empty()) {
     throw std::logic_error("Can't relocate. Haven't exist model");
   }
   double positionAxis[6] = {DBL_MAX,  DBL_MAX,  DBL_MAX,

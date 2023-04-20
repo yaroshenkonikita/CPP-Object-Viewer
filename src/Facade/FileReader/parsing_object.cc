@@ -28,9 +28,6 @@ void ObjectModel::ParsingFacet(std::vector<PartObject> &models,
   char *token = std::strtok(line.data() + 1, " ");
   std::vector<unsigned> face{};
   while (token) {
-    if (*token == '\r') {
-      break;
-    }
     long tmp = std::stol(token);
     if (tmp < 0) {
       face.push_back(position_old_vertexes + tmp);
@@ -41,6 +38,9 @@ void ObjectModel::ParsingFacet(std::vector<PartObject> &models,
       throw std::invalid_argument("Invalid file .obj");
     }
     token = strtok(nullptr, " ");
+    if (!token || *token == '\r') {
+      break;
+    }
   }
   models.back().facets.push_back(face);
 }
@@ -66,5 +66,4 @@ void ObjectModel::OpenObject(std::string line) {
     model.facets.insert(model.facets.end(), model_parse.facets.begin(),
                         model_parse.facets.end());
   }
-  RelocateOnStartPosition();
 }
