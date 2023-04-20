@@ -30,24 +30,25 @@ std::vector<double>& ObjectModel::GetVertexes(double width, double height) {
   std::copy(model.vertexes.begin(), model.vertexes.end(),
             std::back_inserter(prepare_data));
 
-    const std::size_t threads_max = std::min(4u, std::thread::hardware_concurrency());
+  const std::size_t threads_max =
+      std::min(4u, std::thread::hardware_concurrency());
   std::vector<std::thread> threads(threads_max);
 
   for (std::size_t thread_num = 0; thread_num < threads_max; ++thread_num) {
-    threads[thread_num] = std::thread([this, state_scaling,
-                                       scale, thread_num, threads_max]() {
-      for (std::size_t index = thread_num * 3; index < prepare_data.size();
-           index += 3 * threads_max) {
-          prepare_data[index + xAxis] += move_coordinate[xAxis];
-          prepare_data[index + yAxis] += move_coordinate[yAxis];
-          prepare_data[index + zAxis] += move_coordinate[zAxis];
-        if (state_scaling == 1) {
-            prepare_data[index + xAxis] *= scale;
-        } else if (state_scaling == 2) {
-            prepare_data[index + yAxis] *= scale;
-        }
-      }
-    });
+    threads[thread_num] =
+        std::thread([this, state_scaling, scale, thread_num, threads_max]() {
+          for (std::size_t index = thread_num * 3; index < prepare_data.size();
+               index += 3 * threads_max) {
+            prepare_data[index + xAxis] += move_coordinate[xAxis];
+            prepare_data[index + yAxis] += move_coordinate[yAxis];
+            prepare_data[index + zAxis] += move_coordinate[zAxis];
+            if (state_scaling == 1) {
+              prepare_data[index + xAxis] *= scale;
+            } else if (state_scaling == 2) {
+              prepare_data[index + yAxis] *= scale;
+            }
+          }
+        });
   }
 
   for (auto& thread : threads) {

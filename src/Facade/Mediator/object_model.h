@@ -13,6 +13,8 @@
 
 #include "../part_object.h"
 
+#define MULTITHREADING_MODEL_SIZE 4u
+
 namespace s21 {
 
 class ObjectModel {
