@@ -39,10 +39,33 @@ void QOpenGLWidgetOverride::paintGL() {
   if (settings.state_fill) {
     gl_state_poligons = GL_POLYGON;
   }
+
+  // -------------------------------------------------------------- 1
   for (auto& facet : object.GetFacets()) {
     glDrawElements(gl_state_poligons, facet.size(), GL_UNSIGNED_INT,
                    facet.data());
   }
+  // -------------------------------------------------------------- 1
+
+  // -------------------------------------------------------------- 2
+//  const std::size_t threads_max =
+//      std::min(MULTITHREADING_MODEL_SIZE, std::thread::hardware_concurrency());
+//  std::vector<std::thread> threads(threads_max);
+//  for (std::size_t thread_num{}; thread_num < threads_max; ++thread_num) {
+//    threads[thread_num] =
+//        std::thread([this, gl_state_poligons, thread_num, threads_max]() {
+//          for (std::size_t index = thread_num;
+//               index < object.GetFacets().size(); index += threads_max) {
+//            glDrawElements(gl_state_poligons, object.GetFacets()[index].size(),
+//                           GL_UNSIGNED_INT, object.GetFacets()[index].data());
+//          }
+//        });
+//  }
+//  for (auto& thread : threads) {
+//    thread.join();
+//  }
+  // -------------------------------------------------------------- 2
+
   glLineWidth(settings.edge_width);  // толщина ребра
   if (settings.edge_type) {          //тип ребра
     glLineStipple(4, 0x1111);
