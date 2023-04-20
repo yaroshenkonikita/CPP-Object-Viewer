@@ -11,7 +11,7 @@ ObjectModel* ObjectModel::GetInstance() {
   return instance;
 }
 
-ObjectModel::~ObjectModel() {
+void ObjectModel::DeleteInstance() {
   delete instance;
   instance = nullptr;
 }

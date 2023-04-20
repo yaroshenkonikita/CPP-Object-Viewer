@@ -34,6 +34,7 @@ void Controller::on_button_open_path_clicked() {
 
   try {
     model_data.OpenObject(path.toStdString());
+    model_data.RelocateOnStartPosition();
   } catch (std::exception &e) {
     QMessageBox::warning(this, "Error", e.what());
   }

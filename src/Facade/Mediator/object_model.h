@@ -21,6 +21,7 @@ class ObjectModel {
   typedef enum Axis { xAxis, yAxis, zAxis } AxisPoints;
 
   static ObjectModel* GetInstance();
+  static void DeleteInstance();
 
   void OpenObject(std::string);
 
@@ -33,14 +34,14 @@ class ObjectModel {
   void clear();
   std::pair<std::size_t, std::size_t> size();
 
-  std::vector<double>& GetVertexes(double, double);
+  std::vector<double>& GetVertexes(double = 1, double = 1);
   const std::vector<std::vector<unsigned>>& GetFacets();
 
  protected:
   static ObjectModel* instance;
 
   ObjectModel() = default;
-  ~ObjectModel();
+  ~ObjectModel() = default;
 
   PartObject model{};
   std::vector<double> prepare_data{};
