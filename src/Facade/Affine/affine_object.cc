@@ -3,42 +3,70 @@
 using namespace s21;
 
 void ObjectModel::Rotate(double angle, ObjectModel::Axis axis) {
-  std::size_t index{};
-  double tmp_first{}, tmp_second{};
-  if (axis == xAxis) {
-    for (; index < model.vertexes.size(); index += 3) {
-      tmp_first = model.vertexes[index + yAxis];
-      tmp_second = model.vertexes[index + zAxis];
-      model.vertexes[index + yAxis] =
-          cos(angle) * tmp_first - sin(angle) * tmp_second;
-      model.vertexes[index + zAxis] =
-          cos(angle) * tmp_second + sin(angle) * tmp_first;
+  const std::size_t threads_max = std::min(4u, std::thread::hardware_concurrency());
+  std::vector<std::thread> threads(threads_max);
+    if (axis == xAxis) {
+        for (std::size_t thread_num = 0; thread_num < threads_max; ++thread_num) {
+            threads[thread_num] = std::thread([this, angle, thread_num, threads_max]() {
+                double tmp_first{}, tmp_second{};
+                for (std::size_t index = thread_num * 3; index < model.vertexes.size(); index += 3 * threads_max) {
+                    tmp_first = model.vertexes[index + yAxis];
+                    tmp_second = model.vertexes[index + zAxis];
+                    model.vertexes[index + yAxis] =
+                            cos(angle) * tmp_first - sin(angle) * tmp_second;
+                    model.vertexes[index + zAxis] =
+                            cos(angle) * tmp_second + sin(angle) * tmp_first;
+                }
+            });
+        }
+    } else if (axis == yAxis) {
+        for (std::size_t thread_num = 0; thread_num < threads_max; ++thread_num) {
+            threads[thread_num] = std::thread([this, angle, thread_num, threads_max]() {
+                double tmp_first{}, tmp_second{};
+                for (std::size_t index = thread_num * 3; index < model.vertexes.size(); index += 3 * threads_max) {
+                    tmp_first = model.vertexes[index + xAxis];
+                    tmp_second = model.vertexes[index + zAxis];
+                    model.vertexes[index + zAxis] =
+                            cos(angle) * tmp_second - sin(angle) * tmp_first;
+                    model.vertexes[index + xAxis] =
+                            cos(angle) * tmp_first + sin(angle) * tmp_second;
+                }
+            });
+        }
+    } else if (axis == zAxis) {
+        for (std::size_t thread_num = 0; thread_num < threads_max; ++thread_num) {
+            threads[thread_num] = std::thread([this, angle, thread_num, threads_max]() {
+                double tmp_first{}, tmp_second{};
+                for (std::size_t index = thread_num * 3; index < model.vertexes.size(); index += 3 * threads_max) {
+                    tmp_first = model.vertexes[index + xAxis];
+                    tmp_second = model.vertexes[index + yAxis];
+                    model.vertexes[index + xAxis] =
+                            cos(angle) * tmp_first - sin(angle) * tmp_second;
+                    model.vertexes[index + yAxis] =
+                            cos(angle) * tmp_second + sin(angle) * tmp_first;
+                }
+            });
+        }
     }
-  } else if (axis == yAxis) {
-    for (; index < model.vertexes.size(); index += 3) {
-      tmp_first = model.vertexes[index + xAxis];
-      tmp_second = model.vertexes[index + zAxis];
-      model.vertexes[index + zAxis] =
-          cos(angle) * tmp_second - sin(angle) * tmp_first;
-      model.vertexes[index + xAxis] =
-          cos(angle) * tmp_first + sin(angle) * tmp_second;
+
+    for (auto& thread : threads) {
+        thread.join();
     }
-  } else if (axis == zAxis) {
-    for (; index < model.vertexes.size(); index += 3) {
-      tmp_first = model.vertexes[index + xAxis];
-      tmp_second = model.vertexes[index + yAxis];
-      model.vertexes[index + xAxis] =
-          cos(angle) * tmp_first - sin(angle) * tmp_second;
-      model.vertexes[index + yAxis] =
-          cos(angle) * tmp_second + sin(angle) * tmp_first;
-    }
-  }
 }
 
 void ObjectModel::MoveReal(double coordinate, ObjectModel::AxisPoints axis) {
-  for (std::size_t index = axis; index < model.vertexes.size(); index += 3) {
-    model.vertexes[index] += coordinate;
-  }
+  const std::size_t threads_max = std::min(4u, std::thread::hardware_concurrency());
+  std::vector<std::thread> threads(threads_max);
+    for (std::size_t thread_num{}; thread_num < threads_max; ++thread_num) {
+        threads[thread_num] = std::thread([this, coordinate, axis, thread_num, threads_max]() {
+            for (std::size_t index = axis + thread_num * 3; index < model.vertexes.size(); index += 3 * threads_max) {
+                model.vertexes[index] += coordinate;
+            }
+        });
+    }
+    for (auto& thread : threads) {
+        thread.join();
+    }
 }
 
 void ObjectModel::Move(double coordinate, ObjectModel::AxisPoints axis) {
@@ -46,8 +74,17 @@ void ObjectModel::Move(double coordinate, ObjectModel::AxisPoints axis) {
 }
 
 void ObjectModel::Scale(double coordinate) {
-  coordinate = coordinate / 100.;
-  for (double &vertex : model.vertexes) {
-    vertex *= coordinate;
-  }
+    coordinate = coordinate / 100.;
+    const std::size_t threads_max = std::min(4u, std::thread::hardware_concurrency());
+    std::vector<std::thread> threads(threads_max);
+    for (std::size_t thread_num{}; thread_num < threads_max; ++thread_num) {
+        threads[thread_num] = std::thread([this, coordinate, thread_num, threads_max]() {
+            for (std::size_t index = thread_num; index < model.vertexes.size(); index += threads_max) {
+                model.vertexes[index] *= coordinate;
+            }
+        });
+    }
+    for (auto& thread : threads) {
+        thread.join();
+    }
 }
