@@ -1,4 +1,4 @@
-.PHONY: all install uninstall clean dvi dist test gcov_report generate_make rebuild open_app
+.PHONY: all install uninstall clean dvi dist tests gcov_report generate_make rebuild open_app
 
 # =========================================== VAR ==================================================
 
@@ -53,6 +53,21 @@ uninstall:
 	@-rm -rf $(APP)
 	@echo "Uninstalling success"
 
+tests: clean
+	@echo "Tests start..."
+	$(CXX) $(shell find Facade tests -name "*.cc") $(CXX_FLAGS) -o test
+	@./test
+	@-mv *.gc* Facade
+	@echo "Tests done"
+
+gcov_report: tests
+	@echo "Make report..."
+	@mkdir -p $(REPORT)
+	@lcov -t ./test -o $(REPORT)/test.info --no-external -c -d Facade
+	@genhtml -o $(REPORT)/report_html $(REPORT)/test.info
+	@echo "Report is complete"
+
+
 dist: clean
 	@mkdir -p $(DIST)
 	@tar -cvzf $(DIST)/source_code.tar.gz .
@@ -68,7 +83,7 @@ endif
 
 clean:
 	@echo "Cleaning..."
-	@rm -rf $(REPORT) Facade/*.gc* test $(BUILD)* $(DIST) logs $(DOCUMENTATION) $(APP)
+	@rm -rf $(REPORT) Facade/*.gc* test $(BUILD)* $(DIST) logs $(DOCUMENTATION) $(APP) *.gc* Facade/*.gc*
 	@echo "Clean is done"
 
 rebuild: clean all
