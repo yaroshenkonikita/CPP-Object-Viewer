@@ -4,7 +4,6 @@
 #include <QFileDialog>
 #include <QMainWindow>
 #include <QMessageBox>
-#include <QSettings>
 #include <QTimer>
 #include <cstring>
 
