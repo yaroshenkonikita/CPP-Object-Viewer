@@ -34,7 +34,7 @@ void Controller::on_button_open_path_clicked() {
 
   try {
     model_data.OpenObject(path.toStdString());
-    model_data.RelocateOnStartPosition();
+    model_data.NormalizationAndCentralize();
   } catch (std::exception &e) {
     QMessageBox::warning(this, "Error", e.what());
   }
@@ -106,7 +106,7 @@ void Controller::on_button_scaling_clicked() {
 
 void Controller::on_button_reset_position_clicked() {
   try {
-    ObjectModel::GetInstance()->RelocateOnStartPosition();
+    ObjectModel::GetInstance()->CentralizeAfterMove();
   } catch (std::exception &e) {
     QMessageBox::warning(this, "Error", e.what());
   }

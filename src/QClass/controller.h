@@ -18,20 +18,22 @@ class Controller;
 QT_END_NAMESPACE
 
 namespace s21 {
-
+/**
+ * @brief Класс по работе между ObjectModel и UI
+ */
 class Controller : public QMainWindow {
   Q_OBJECT
 
  public:
-  Controller(QWidget *parent = nullptr);
+  Controller(QWidget *parent = nullptr);  ///< Дефолтный конструктор
 
-  ~Controller();
+  ~Controller();  ///< Дефолтный деструктор
 
-  Ui::Controller *ui;
+  Ui::Controller *ui;  ///< Указатель на окно ui
 
  private:
-  QTimer *timer_;
-  QGifImage *gif_;
+  QTimer *timer_;  ///< Указатель на таймер для Gif
+  QGifImage *gif_;  /// Указатель на класс QGifImage для создания Gif
 
  private slots:
   void on_actionClose_triggered();
@@ -45,7 +47,6 @@ class Controller : public QMainWindow {
   void on_button_gif_clicked();
 
   void takeFrame();
-  // установка значений по нажанию на соответствующую кнопку
 
   void on_button_setting_clicked();
 
