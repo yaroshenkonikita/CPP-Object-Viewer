@@ -12,12 +12,9 @@ REPORT = ../report
 DOCUMENTATION = ../documentation
 DIST = ../dist
 
-# =========================================== OS ===================================================
-
-
 # ========================================= TARGETS ================================================
 
-all: install
+all: install open_app
 
 install: uninstall
 	@echo "Building application..."
@@ -37,7 +34,6 @@ endif
 	@echo "Done.\n"
 	@-ln $(APP)/$(PROJECT_NAME).app ~/Desktop/
 	@echo "Installation complete!"
-	@make open_app
 
 open_app:
 ifeq ($(OS), Darwin)

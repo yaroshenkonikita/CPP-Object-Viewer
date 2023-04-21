@@ -4,12 +4,11 @@
 #include <QFileDialog>
 #include <QMainWindow>
 #include <QMessageBox>
-#include <QSettings>
 #include <QTimer>
 #include <cstring>
 
-#include "../SettingsClass/options.h"
 #include "../GIFCreation/gifImage/qgifimage.h"
+#include "../SettingsClass/options.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
