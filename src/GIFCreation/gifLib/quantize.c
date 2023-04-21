@@ -122,7 +122,7 @@ int GifQuantizeBuffer(unsigned int Width, unsigned int Height,
     free((char *)ColorArrayEntries);
     return GIF_ERROR;
   }
-  if ((int)NewColorMapSize < *ColorMapSize) {
+  if ((unsigned)NewColorMapSize < (unsigned)*ColorMapSize) {
     /* And clear rest of color map: */
     for (i = NewColorMapSize; i < *ColorMapSize; i++)
       OutputColorMap[i].Red = OutputColorMap[i].Green = OutputColorMap[i].Blue =
@@ -131,7 +131,7 @@ int GifQuantizeBuffer(unsigned int Width, unsigned int Height,
 
   /* Average the colors in each entry to be the color to be used in the
    * output color map, and plug it into the output color map itself. */
-  for (i = 0; i < (int)NewColorMapSize; i++) {
+  for (i = 0; (unsigned)i < NewColorMapSize; i++) {
     if ((j = NewColorSubdiv[i].NumEntries) > 0) {
       QuantizedColor = NewColorSubdiv[i].QuantizedColors;
       Red = Green = Blue = 0;

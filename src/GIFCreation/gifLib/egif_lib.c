@@ -256,9 +256,8 @@ int EGifPutScreenDesc(GifFileType *GifFile, const int Width, const int Height,
   write_version = EGifGetGifVersion(GifFile);
 
   /* First write the version prefix into the file. */
-  if ((unsigned long)InternalWrite(GifFile, (unsigned char *)write_version,
-                                   strlen(write_version)) !=
-      strlen(write_version)) {
+  if (InternalWrite(GifFile, (unsigned char *)write_version,
+                    (int)strlen(write_version)) != (int)strlen(write_version)) {
     GifFile->Error = E_GIF_ERR_WRITE_FAILED;
     return GIF_ERROR;
   }
@@ -638,6 +637,7 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
 ******************************************************************************/
 int EGifPutCode(GifFileType *GifFile, int CodeSize,
                 const GifByteType *CodeBlock) {
+  CodeSize += 1;
   GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
   if (!IS_WRITEABLE(Private)) {
@@ -645,7 +645,7 @@ int EGifPutCode(GifFileType *GifFile, int CodeSize,
     GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
     return GIF_ERROR;
   }
-  ++CodeSize;  // for warning
+
   /* No need to dump code size as Compression set up does any for us: */
   /*
    * Buf = CodeSize;
@@ -654,7 +654,7 @@ int EGifPutCode(GifFileType *GifFile, int CodeSize,
    *      return GIF_ERROR;
    * }
    */
-
+  CodeSize -= 1;
   return EGifPutCodeNext(GifFile, CodeBlock);
 }
 
@@ -933,7 +933,7 @@ static int EGifBufferedOutput(GifFileType *GifFile, GifByteType *Buf, int c) {
   if (c == FLUSH_OUTPUT) {
     /* Flush everything out. */
     if (Buf[0] != 0 &&
-        InternalWrite(GifFile, Buf, Buf[0] + 1) != (Buf[0] + 1)) {
+        (int)InternalWrite(GifFile, Buf, Buf[0] + 1) != (int)(Buf[0] + 1)) {
       GifFile->Error = E_GIF_ERR_WRITE_FAILED;
       return GIF_ERROR;
     }
@@ -946,7 +946,8 @@ static int EGifBufferedOutput(GifFileType *GifFile, GifByteType *Buf, int c) {
   } else {
     if (Buf[0] == 255) {
       /* Dump out this buffer - it is full: */
-      if (InternalWrite(GifFile, Buf, Buf[0] + 1) != (Buf[0] + 1)) {
+      if ((unsigned)InternalWrite(GifFile, Buf, Buf[0] + 1) !=
+          (unsigned)(Buf[0] + 1)) {
         GifFile->Error = E_GIF_ERR_WRITE_FAILED;
         return GIF_ERROR;
       }

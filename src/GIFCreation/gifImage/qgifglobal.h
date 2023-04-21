@@ -22,50 +22,18 @@
 ** WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **
 ****************************************************************************/
+#ifndef QGIFGLOBAL_H
+#define QGIFGLOBAL_H
+#include <QtCore/qglobal.h>
 
-/*!
-    \title Qt GifImage
-    \page index.html
-    \brief Qt GifImage provides functionality for handling .gif files.
+#if !defined(QT_STATIC) && !defined(GIFIMAGE_NO_LIB)
+#if defined(QT_BUILD_GIFIMAGE_LIB)
+#define Q_GIFIMAGE_EXPORT Q_DECL_EXPORT
+#else
+#define Q_GIFIMAGE_EXPORT Q_DECL_IMPORT
+#endif
+#else
+#define Q_GIFIMAGE_EXPORT
+#endif
 
-    The \l{Qt GifImage C++ Classes}{Qt GifImage Module} provides a set of classes to read and write .gif files.
-    The library can be used to
-
-    \list
-       \li Generate a new .gif file from a list of QImage files.
-       \li Extract frames to a list of QImage files.
-    \endlist
-
-    \image demo1.gif
-
-    \table
-      \row
-        \li Source code: \li \l{https://github.com/dbzhang800/QtGifImage}
-      \row
-        \li Issures: \li \l{https://github.com/dbzhang800/QtGifImage/issues}
-      \row
-        \li License: \li MIT
-    \endtable
-
-    \section1 Getting Started
-
-    To include the definitions of the module's classes, using the following directive:
-
-    \code
-    #include <QtGifImage>
-    \endcode
-
-    To link against the module, add this line to your qmake .pro file:
-
-    \code
-    QT += gifimage
-    \endcode
-
-    More information can be found in \l{Qt GifImage Build} page.
-
-    \section1 Related information
-    \list
-        \li \l{Qt GifImage C++ Classes}
-        \li \l{Qt GifImage Examples}
-    \endlist
-*/
+#endif  // QGIFGLOBAL_H
