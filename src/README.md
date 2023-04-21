@@ -14,8 +14,9 @@
 - Qt6::OpenGLWidgets
 
 Порядок действий для установки:
-1. Склонировать [репозиторий](https://repos.21-school.ru/students/CPP3_SmartCalc_v2.0.ID_353536/kegsbett_student.21_school.ru/CPP3_SmartCalc_v2.0-1.git)
-2. Зайти в папку src и вписать `make install`
+1. Скопируйте ссылку на [репозиторий](https://repos.21-school.ru/students/CPP3_SmartCalc_v2.0.ID_353536/kegsbett_student.21_school.ru/CPP3_SmartCalc_v2.0-1.git)
+2. Склонируйте репозиторий и зайдите в папку src
+3. Впишите в терминал `make` `install`
 
 После установки на рабочем столе появится ярлык через который можно запустить приложение.
 
