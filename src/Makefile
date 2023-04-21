@@ -1,4 +1,4 @@
-.PHONY: all install uninstall clean dvi dist tests gcov_report rebuild open_app
+.PHONY: all install uninstall clean dvi dist tests gcov_report rebuild open_app tar_dependence
 
 # =========================================== VAR ==================================================
 
@@ -21,7 +21,10 @@ endif
 
 all: install open_app
 
-install: uninstall
+tar_dependence:
+	@tar xvzf GIFCreation.tar.gz
+
+install: uninstall tar_dependence
 	@echo "Building application..."
 	@cmake -B $(BUILD)
 	@cd $(BUILD) && make
