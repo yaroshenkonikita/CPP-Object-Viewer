@@ -28,7 +28,7 @@ TEST(Model, normalParsing) {
   EXPECT_EQ(object.size().first, 30);
   EXPECT_EQ(object.size().second, 10);
   EXPECT_FALSE(object.empty());
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, clearParsing) {
@@ -37,44 +37,44 @@ TEST(Model, clearParsing) {
   EXPECT_FALSE(object.empty());
   object.clear();
   EXPECT_TRUE(object.empty());
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, errorParsing) {
   s21::ObjectModel &object = *s21::ObjectModel::GetInstance();
   EXPECT_ANY_THROW(object.OpenObject("tests/invalid_test.txt"));
   EXPECT_TRUE(object.empty());
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, errorParsing2) {
   s21::ObjectModel &object = *s21::ObjectModel::GetInstance();
   EXPECT_ANY_THROW(object.OpenObject("tests/invalid_size_vertex.txt"));
   EXPECT_TRUE(object.empty());
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, errorParsing3) {
   s21::ObjectModel &object = *s21::ObjectModel::GetInstance();
   EXPECT_ANY_THROW(object.OpenObject("tests/invalid_facet.txt"));
   EXPECT_TRUE(object.empty());
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, normalization) {
   s21::ObjectModel &object = *s21::ObjectModel::GetInstance();
   object.OpenObject("tests/test.txt");
-  object.RelocateOnStartPosition();
+  object.NormalizationAndCentralize();
   for (std::size_t index{}; index < object.GetVertexes().size(); ++index) {
     EXPECT_NEAR(std::fabs(object.GetVertexes()[index]), 0.5, 1e-6);
   }
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, normalizationError) {
   s21::ObjectModel &object = *s21::ObjectModel::GetInstance();
-  EXPECT_ANY_THROW(object.RelocateOnStartPosition());
-  s21::ObjectModel::DeleteInstance();
+  EXPECT_ANY_THROW(object.NormalizationAndCentralize());
+  object.clear();
 }
 
 TEST(Model, getVertexesForNotEqualSize) {
@@ -90,7 +90,7 @@ TEST(Model, getVertexesForNotEqualSize) {
     EXPECT_NEAR(pattern.vertexesData[index + s21::ObjectModel::zAxis],
                 dataVertexes[index + s21::ObjectModel::zAxis], 1e-6);
   }
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, getVertexesForNotEqualSize2) {
@@ -106,7 +106,7 @@ TEST(Model, getVertexesForNotEqualSize2) {
     EXPECT_NEAR(pattern.vertexesData[index + s21::ObjectModel::zAxis],
                 dataVertexes[index + s21::ObjectModel::zAxis], 1e-6);
   }
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, RotateX) {
@@ -126,7 +126,7 @@ TEST(Model, RotateX) {
     EXPECT_NEAR(cos(angle) * tmp_second + sin(angle) * tmp_first,
                 dataVertexes[index + s21::ObjectModel::zAxis], 1e-6);
   }
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, RotateX2) {
@@ -146,7 +146,7 @@ TEST(Model, RotateX2) {
     EXPECT_NEAR(cos(angle) * tmp_second + sin(angle) * tmp_first,
                 dataVertexes[index + s21::ObjectModel::zAxis], 1e-6);
   }
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, RotateY) {
@@ -166,7 +166,7 @@ TEST(Model, RotateY) {
     EXPECT_NEAR(cos(angle) * tmp_second - sin(angle) * tmp_first,
                 dataVertexes[index + s21::ObjectModel::zAxis], 1e-6);
   }
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, RotateY2) {
@@ -186,7 +186,7 @@ TEST(Model, RotateY2) {
     EXPECT_NEAR(cos(angle) * tmp_second - sin(angle) * tmp_first,
                 dataVertexes[index + s21::ObjectModel::zAxis], 1e-6);
   }
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, RotateZ) {
@@ -206,7 +206,7 @@ TEST(Model, RotateZ) {
     EXPECT_NEAR(pattern.vertexesData[index + s21::ObjectModel::zAxis],
                 dataVertexes[index + s21::ObjectModel::zAxis], 1e-6);
   }
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, RotateZ2) {
@@ -226,28 +226,28 @@ TEST(Model, RotateZ2) {
     EXPECT_NEAR(pattern.vertexesData[index + s21::ObjectModel::zAxis],
                 dataVertexes[index + s21::ObjectModel::zAxis], 1e-6);
   }
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }
 
 TEST(Model, Move) {
   s21::ObjectModel &object = *s21::ObjectModel::GetInstance();
   object.OpenObject("tests/test.txt");
   double move_coords[3] = {42, -23, 1234};
-  object.Move(move_coords[0], s21::ObjectModel::xAxis);
-  object.Move(move_coords[1], s21::ObjectModel::yAxis);
-  object.Move(move_coords[2], s21::ObjectModel::zAxis);
+  object.Move(move_coords[s21::ObjectModel::xAxis], s21::ObjectModel::xAxis);
+  object.Move(move_coords[s21::ObjectModel::yAxis], s21::ObjectModel::yAxis);
+  object.Move(move_coords[s21::ObjectModel::zAxis], s21::ObjectModel::zAxis);
   auto &dataVertexes = object.GetVertexes();
   CubeObj pattern;
   for (std::size_t index{}; index < pattern.vertexesData.size(); index += 3) {
-    EXPECT_NEAR(
-        pattern.vertexesData[index + s21::ObjectModel::xAxis] + move_coords[0],
-        dataVertexes[index + s21::ObjectModel::xAxis], 1e-6);
-    EXPECT_NEAR(
-        pattern.vertexesData[index + s21::ObjectModel::yAxis] + move_coords[1],
-        dataVertexes[index + s21::ObjectModel::yAxis], 1e-6);
-    EXPECT_NEAR(
-        pattern.vertexesData[index + s21::ObjectModel::zAxis] + move_coords[2],
-        dataVertexes[index + s21::ObjectModel::zAxis], 1e-6);
+    EXPECT_NEAR(pattern.vertexesData[index + s21::ObjectModel::xAxis] +
+                    move_coords[s21::ObjectModel::xAxis],
+                dataVertexes[index + s21::ObjectModel::xAxis], 1e-6);
+    EXPECT_NEAR(pattern.vertexesData[index + s21::ObjectModel::yAxis] +
+                    move_coords[s21::ObjectModel::yAxis],
+                dataVertexes[index + s21::ObjectModel::yAxis], 1e-6);
+    EXPECT_NEAR(pattern.vertexesData[index + s21::ObjectModel::zAxis] +
+                    move_coords[s21::ObjectModel::zAxis],
+                dataVertexes[index + s21::ObjectModel::zAxis], 1e-6);
   }
-  s21::ObjectModel::DeleteInstance();
+  object.clear();
 }

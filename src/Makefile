@@ -1,4 +1,4 @@
-.PHONY: all install uninstall clean dvi dist tests gcov_report generate_make rebuild open_app
+.PHONY: all install uninstall clean dvi dist tests gcov_report rebuild open_app
 
 # =========================================== VAR ==================================================
 
@@ -11,24 +11,18 @@ BUILD = ../build
 REPORT = ../report
 DOCUMENTATION = ../documentation
 DIST = ../dist
-QT_MAKEFILE = MakeBuild
-
-# =========================================== OS ===================================================
-
 
 # ========================================= TARGETS ================================================
 
-all: install
+all: install open_app
 
-generate_make:
-	@qmake $(QT_PRO) -o $(BUILD)/$(QT_MAKEFILE)
-
-install: uninstall generate_make
+install: uninstall
 	@echo "Building application..."
-	@cd $(BUILD) && make -sf $(QT_MAKEFILE)
+	@cmake -B $(BUILD)
+	@cd $(BUILD) && make
 	@echo "Application build."
-	@echo "Moving application to folder \"$(APP)\"..."
-	@mkdir $(APP)
+	@echo "Moving application to folder '$(APP)'..."
+	@mkdir -p $(APP)
 ifeq ($(OS), Darwin)
 	@mv $(BUILD)/$(PROJECT_NAME).app ./$(APP)
 else
@@ -38,8 +32,8 @@ endif
 	@echo "Deleting build folder..."
 	@rm -rf $(BUILD)
 	@echo "Done.\n"
+	@-ln $(APP)/$(PROJECT_NAME).app ~/Desktop/
 	@echo "Installation complete!"
-	@make open_app
 
 open_app:
 ifeq ($(OS), Darwin)
@@ -50,7 +44,7 @@ endif
 
 uninstall:
 	@echo "Uninstalling start..."
-	@-rm -rf $(APP)
+	@-rm -rf $(APP) ~/Desktop/$(PROJECT_NAME).app
 	@echo "Uninstalling success"
 
 tests: clean
@@ -71,14 +65,15 @@ gcov_report: tests
 dist: clean
 	@mkdir -p $(DIST)
 	@tar -cvzf $(DIST)/source_code.tar.gz .
-	@echo "The archive was successfully created on the path '../dist'"
+	@echo "The archive was successfully created on the path '$(DIST)'"
 
 dvi:
 	@doxygen Doxyfile
+	@cp -r images $(DOCUMENTATION)/html
 ifeq ($(OS), Darwin)
-	@open ../documentation/html/index.html
+	@open $(DOCUMENTATION)/html/index.html
 else
-	@xdg-open ../documentation/html/index.html
+	@xdg-open $(DOCUMENTATION)/html/index.html
 endif	
 
 clean:

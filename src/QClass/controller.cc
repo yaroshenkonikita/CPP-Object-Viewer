@@ -17,6 +17,7 @@ Controller::Controller(QWidget *parent)
 Controller::~Controller() {
   delete ui;
   delete timer_;
+  delete gif_;
 }
 
 void Controller::on_actionClose_triggered() { close(); }
@@ -34,7 +35,7 @@ void Controller::on_button_open_path_clicked() {
 
   try {
     model_data.OpenObject(path.toStdString());
-    model_data.RelocateOnStartPosition();
+    model_data.NormalizationAndCentralize();
   } catch (std::exception &e) {
     QMessageBox::warning(this, "Error", e.what());
   }
@@ -48,23 +49,31 @@ void Controller::on_button_open_path_clicked() {
 void Controller::on_button_jpeg_clicked() {
   QString file = QFileDialog::getSaveFileName(this, "Save as...", "name.jpeg",
                                               "JPEG (*.jpeg)");
+  if (file.isEmpty()) {
+    return;
+  }
   ui->widget->grabFramebuffer().save(file, NULL, 100);
 }
 
 void Controller::on_button_bmp_clicked() {
   QString file = QFileDialog::getSaveFileName(this, "Save as...", "name.bmp",
                                               "BMP (*.bmp)");
+  if (file.isEmpty()) {
+    return;
+  }
   ui->widget->grabFramebuffer().save(file, NULL, 100);
 }
 
 void Controller::on_button_gif_clicked() {
   ui->button_gif->setText("Gif is recording");
+  delete gif_;
+  gif_ = nullptr;
   gif_ = new QGifImage;
   timer_->start(100);
 }
 
 void Controller::takeFrame() {
-  if (gif_->frameCount() < 50) {
+  if (gif_->frameCount() < 100) {
     QImage frame = ui->widget->grabFramebuffer();
     gif_->addFrame(frame.scaled(640, 480), 0);
   } else {
@@ -79,7 +88,6 @@ void Controller::takeFrame() {
 
 void Controller::on_button_setting_clicked() {
   options options_form;
-  options_form.setWindowTitle("Settings");
   options_form.exec();
   ui->widget->settings.LoadSettings();
   ui->widget->update();
@@ -106,7 +114,7 @@ void Controller::on_button_scaling_clicked() {
 
 void Controller::on_button_reset_position_clicked() {
   try {
-    ObjectModel::GetInstance()->RelocateOnStartPosition();
+    ObjectModel::GetInstance()->CentralizeAfterMove();
   } catch (std::exception &e) {
     QMessageBox::warning(this, "Error", e.what());
   }

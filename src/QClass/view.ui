@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>3D-Viewer</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../icon/icons.qrc">
+    <normaloff>:/3Dviewer.icns</normaloff>:/3Dviewer.icns</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
@@ -463,6 +467,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../icon/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

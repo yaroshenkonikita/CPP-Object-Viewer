@@ -12,14 +12,17 @@ class options;
 }
 
 namespace s21 {
-
+/**
+ * @brief Определение собственного класса Qt для изменения настроек класса
+ * Options_t
+ */
 class options : public QDialog {
   Q_OBJECT
 
  public:
-  explicit options(QWidget *parent = nullptr);
+  explicit options(QWidget *parent = nullptr);  ///< Дефолтный конструктор
 
-  ~options();
+  ~options();  ///< Дефолтный деструктор
 
  private slots:
   void on_radioButton_central_clicked();
@@ -57,8 +60,8 @@ class options : public QDialog {
   void on_polygon_facets_clicked();
 
  private:
-  Ui::options *ui;
-  Options_t settings_data;
+  Ui::options *ui;          ///< Указатель на окно ui
+  Options_t settings_data;  /// Экземпляр класса для отслеживания настроек
 };
 
 }  // namespace s21
