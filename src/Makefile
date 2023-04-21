@@ -44,7 +44,7 @@ endif
 
 uninstall:
 	@echo "Uninstalling start..."
-	@-rm -rf $(APP)
+	@-rm -rf $(APP) ~/Desktop/$(PROJECT_NAME).app
 	@echo "Uninstalling success"
 
 tests: clean
