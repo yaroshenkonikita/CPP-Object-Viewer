@@ -10,9 +10,12 @@ void ObjectModel::ParsingVertex(std::vector<PartObject> &models,
   int count_vertex{};
   char *token = std::strtok(line.data() + 1, " ");
   while (token) {
+    if (*token == '\r') {
+      break;
+    }
     ++count_vertex;
     models.back().vertexes.push_back(std::stod(token));
-    token = strtok(nullptr, " ");
+    token = std::strtok(nullptr, " ");
   }
   if (count_vertex != 3) {
     throw std::invalid_argument("Invalid file .obj");
@@ -28,6 +31,9 @@ void ObjectModel::ParsingFacet(std::vector<PartObject> &models,
   char *token = std::strtok(line.data() + 1, " ");
   std::vector<unsigned> face{};
   while (token) {
+    if (*token == '\r') {
+      break;
+    }
     long tmp = std::stol(token);
     if (tmp < 0) {
       face.push_back(position_old_vertexes + tmp);
@@ -37,10 +43,7 @@ void ObjectModel::ParsingFacet(std::vector<PartObject> &models,
     if (face.back() >= position_old_vertexes) {
       throw std::invalid_argument("Invalid file .obj");
     }
-    token = strtok(nullptr, " ");
-    if (!token || *token == '\r') {
-      break;
-    }
+    token = std::strtok(nullptr, " ");
   }
   models.back().facets.push_back(face);
 }

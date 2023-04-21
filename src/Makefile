@@ -11,6 +11,11 @@ BUILD = ../build
 REPORT = ../report
 DOCUMENTATION = ../documentation
 DIST = ../dist
+ifeq ($(OS), Darwin)
+	OPEN = open
+else
+	OPEN = xdg-open
+endif
 
 # ========================================= TARGETS ================================================
 
@@ -23,11 +28,7 @@ install: uninstall
 	@echo "Application build."
 	@echo "Moving application to folder '$(APP)'..."
 	@mkdir -p $(APP)
-ifeq ($(OS), Darwin)
-	@mv $(BUILD)/$(PROJECT_NAME).app ./$(APP)
-else
 	@mv $(BUILD)/$(PROJECT_NAME) ./$(APP)/$(PROJECT_NAME).app
-endif
 	@echo "Done.\n"
 	@echo "Deleting build folder..."
 	@rm -rf $(BUILD)
@@ -60,13 +61,7 @@ gcov_report: tests
 	@lcov -t ./test -o $(REPORT)/test.info --no-external -c -d Facade
 	@genhtml -o $(REPORT)/report_html $(REPORT)/test.info
 	@echo "Report is complete"
-ifeq ($(OS), Darwin)
-	@open $(REPORT)/report_html/index.html
-else
-	@xdg-open $(REPORT)/report_html/index.html
-endif	
-
-
+	@$(OPEN) $(REPORT)/report_html/index.html
 
 dist: clean
 	@mkdir -p $(DIST)
@@ -76,11 +71,7 @@ dist: clean
 dvi:
 	@doxygen Doxyfile
 	@cp -r images $(DOCUMENTATION)/html
-ifeq ($(OS), Darwin)
-	@open $(DOCUMENTATION)/html/index.html
-else
-	@xdg-open $(DOCUMENTATION)/html/index.html
-endif	
+	@$(OPEN) $(DOCUMENTATION)/html/index.html
 
 clean:
 	@echo "Cleaning..."
