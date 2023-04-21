@@ -25,12 +25,12 @@ namespace s21 {
 class ObjectModel {
  public:
   /**
-   * @brief Enum для обозначения акцис
+   * @brief Enum для обозначения осей
    */
   typedef enum Axis {
-    xAxis,  ///< Акциса X
-    yAxis,  ///< Акциса Y
-    zAxis   ///< Акциса Z
+    xAxis,  ///< Ось X
+    yAxis,  ///< Ось Y
+    zAxis   ///< Ось Z
   } AxisPoints;
 
   /**
@@ -53,13 +53,13 @@ class ObjectModel {
    */
   void Move(double coordinate, ObjectModel::AxisPoints axis);
   /**
-   * @brief Поворот всех точек относительно заданной акцисе
+   * @brief Поворот всех точек относительно заданной оси
    * @param angle число для поворота
-   * @param axis заданная акциса
+   * @param axis заданная ось
    */
   void Rotate(double angle, ObjectModel::Axis axis);
   /**
-   * @brief Умножить каждую акцису каждой точки на заданное число
+   * @brief Умножить каждую ось каждой точки на заданное число
    * @param coordinate число для умножения
    */
   void Scale(double coordinate);

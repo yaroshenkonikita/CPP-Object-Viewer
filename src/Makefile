@@ -60,6 +60,12 @@ gcov_report: tests
 	@lcov -t ./test -o $(REPORT)/test.info --no-external -c -d Facade
 	@genhtml -o $(REPORT)/report_html $(REPORT)/test.info
 	@echo "Report is complete"
+ifeq ($(OS), Darwin)
+	@open $(REPORT)/report_html/index.html
+else
+	@xdg-open $(REPORT)/report_html/index.html
+endif	
+
 
 
 dist: clean

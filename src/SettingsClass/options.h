@@ -61,7 +61,7 @@ class options : public QDialog {
 
  private:
   Ui::options *ui;          ///< Указатель на окно ui
-  Options_t settings_data;  /// Экземпляр класса для отслеживания настроек
+  Options_t settings_data;  ///< Экземпляр класса для отслеживания настроек
 };
 
 }  // namespace s21
