@@ -71,9 +71,9 @@ dvi:
 	@doxygen Doxyfile
 	@cp -r images $(DOCUMENTATION)/html
 ifeq ($(OS), Darwin)
-	@open ../documentation/html/index.html
+	@open $(DOCUMENTATION)/html/index.html
 else
-	@xdg-open ../documentation/html/index.html
+	@xdg-open $(DOCUMENTATION)/html/index.html
 endif	
 
 clean:
