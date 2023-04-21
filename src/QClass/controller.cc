@@ -79,7 +79,6 @@ void Controller::takeFrame() {
 
 void Controller::on_button_setting_clicked() {
   options options_form;
-  options_form.setWindowTitle("Settings");
   options_form.exec();
   ui->widget->settings.LoadSettings();
   ui->widget->update();
