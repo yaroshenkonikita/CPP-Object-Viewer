@@ -11,7 +11,6 @@ BUILD = ../build
 REPORT = ../report
 DOCUMENTATION = ../documentation
 DIST = ../dist
-QT_MAKEFILE = MakeBuild
 
 # =========================================== OS ===================================================
 
@@ -20,15 +19,13 @@ QT_MAKEFILE = MakeBuild
 
 all: install
 
-generate_make:
-	@qmake $(QT_PRO) -o $(BUILD)/$(QT_MAKEFILE)
-
-install: uninstall generate_make
+install: uninstall
 	@echo "Building application..."
-	@cd $(BUILD) && make -sf $(QT_MAKEFILE)
+	@cmake -B $(BUILD)
+	@cd $(BUILD) && make
 	@echo "Application build."
 	@echo "Moving application to folder '$(APP)'..."
-	@mkdir $(APP)
+	@mkdir -p $(APP)
 ifeq ($(OS), Darwin)
 	@mv $(BUILD)/$(PROJECT_NAME).app ./$(APP)
 else
