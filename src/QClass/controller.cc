@@ -17,7 +17,7 @@ Controller::Controller(QWidget *parent)
 Controller::~Controller() {
   delete ui;
   delete timer_;
-    delete gif_;
+  delete gif_;
 }
 
 void Controller::on_actionClose_triggered() { close(); }
