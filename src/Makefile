@@ -1,4 +1,4 @@
-.PHONY: all install uninstall clean dvi dist tests gcov_report generate_make rebuild open_app
+.PHONY: all install uninstall clean dvi dist tests gcov_report rebuild open_app
 
 # =========================================== VAR ==================================================
 
