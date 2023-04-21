@@ -40,6 +40,8 @@ add_executable(3DViewer
         SettingsClass/options_t.h
 
         SettingsClass/options.ui
-        QClass/view.ui)
+        QClass/view.ui
+
+        icon/icons.qrc)
 
 target_link_libraries(3DViewer PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::OpenGL Qt6::OpenGLWidgets GIFLIB)

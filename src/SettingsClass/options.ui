@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Settings</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../icon/icons.qrc">
+    <normaloff>:/settings.icns</normaloff>:/settings.icns</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
    <item>
@@ -554,11 +558,13 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icon/icons.qrc"/>
+ </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="facet_group"/>
   <buttongroup name="vertex_group"/>
   <buttongroup name="edge_group"/>
+  <buttongroup name="facet_group"/>
  </buttongroups>
 </ui>

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>settings.icns</file>
+        <file>3Dviewer.icns</file>
+    </qresource>
+</RCC>
