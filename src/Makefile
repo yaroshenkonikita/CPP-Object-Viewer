@@ -35,6 +35,7 @@ endif
 	@echo "Deleting build folder..."
 	@rm -rf $(BUILD)
 	@echo "Done.\n"
+	@-ln $(APP)/$(PROJECT_NAME).app ~/Desktop/
 	@echo "Installation complete!"
 	@make open_app
 
@@ -72,6 +73,7 @@ dist: clean
 
 dvi:
 	@doxygen Doxyfile
+	@cp -r images $(DOCUMENTATION)/html
 ifeq ($(OS), Darwin)
 	@open ../documentation/html/index.html
 else
