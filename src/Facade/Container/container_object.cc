@@ -7,15 +7,18 @@ std::pair<std::size_t, std::size_t> ObjectModel::size() {
 }
 
 bool ObjectModel::empty() {
-  return model.vertexes.empty() || model.facets.empty();
+  return model.vertexes.empty() && model.facets.empty();
 }
 
 void ObjectModel::clear() {
   model.facets.clear();
   model.vertexes.clear();
+  CentralizeAfterMove();
+  prepare_data.clear();
 }
 
-std::vector<double>& ObjectModel::GetVertexes(double width, double height) {
+const std::vector<double>& ObjectModel::GetVertexes(double width,
+                                                    double height) {
   char state_scaling{};
   double scale{};
   if (width > height) {

@@ -2,16 +2,7 @@
 
 using namespace s21;
 
-ObjectModel* ObjectModel::instance = nullptr;
-
-ObjectModel* ObjectModel::GetInstance() {
-  if (!instance) {
-    instance = new ObjectModel();
-  }
+std::shared_ptr<ObjectModel> ObjectModel::GetInstance() {
+  static std::shared_ptr<ObjectModel> instance(new ObjectModel());
   return instance;
-}
-
-void ObjectModel::DeleteInstance() {
-  delete instance;
-  instance = nullptr;
 }

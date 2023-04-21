@@ -27,7 +27,7 @@ install: uninstall generate_make
 	@echo "Building application..."
 	@cd $(BUILD) && make -sf $(QT_MAKEFILE)
 	@echo "Application build."
-	@echo "Moving application to folder \"$(APP)\"..."
+	@echo "Moving application to folder '$(APP)'..."
 	@mkdir $(APP)
 ifeq ($(OS), Darwin)
 	@mv $(BUILD)/$(PROJECT_NAME).app ./$(APP)
@@ -71,7 +71,7 @@ gcov_report: tests
 dist: clean
 	@mkdir -p $(DIST)
 	@tar -cvzf $(DIST)/source_code.tar.gz .
-	@echo "The archive was successfully created on the path '../dist'"
+	@echo "The archive was successfully created on the path '$(DIST)'"
 
 dvi:
 	@doxygen Doxyfile
