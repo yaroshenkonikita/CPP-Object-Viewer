@@ -27,7 +27,11 @@ class ObjectModel {
   /**
    * @brief Enum для обозначения акцис
    */
-  typedef enum Axis { xAxis, yAxis, zAxis } AxisPoints;
+  typedef enum Axis {
+    xAxis,  ///< Акциса X
+    yAxis,  ///< Акциса Y
+    zAxis   ///< Акциса Z
+  } AxisPoints;
 
   /**
    * @brief Функция получения единственного объекта(SingleTon)
@@ -110,7 +114,7 @@ class ObjectModel {
   ObjectModel &operator=(ObjectModel &&) =
       delete;  ///< Удаление оператора переноса
 
- protected:
+ private:
   ObjectModel() = default;  ///< Дефолтный конструктор, приватный для SingleTon
 
   PartObject model{};  ///< Все исходные данные об объекте
