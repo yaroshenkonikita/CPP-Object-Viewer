@@ -27,7 +27,7 @@ tar_dependence:
 install: uninstall tar_dependence
 	@echo "Building application..."
 	@cmake -B $(BUILD)
-	@cd $(BUILD) && make
+	@cd $(BUILD) && make -j$(nproc)
 	@echo "Application build."
 	@echo "Moving application to folder '$(APP)'..."
 	@mkdir -p $(APP)
